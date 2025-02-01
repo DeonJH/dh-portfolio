@@ -26,7 +26,7 @@ const ContactForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-lg mx-auto p-4 bg-gray-800 rounded-lg shadow-lg"
+      className="max-w-lg mx-auto p-4 bg-gray-950 rounded-lg shadow-lg"
     >
       <div className="mb-4">
         <label className="block text-gray-300 text-sm mb-2" htmlFor="name">
@@ -36,7 +36,7 @@ const ContactForm = () => {
           id="name"
           {...register("name")}
           className={`w-full p-2 text-gray-900 border ${
-            errors.name ? "border-red-500" : "border-gray-300"
+            errors.name ? "border-red-500" : "border-green-500"
           } rounded`}
         />
         {errors.name && (
@@ -53,7 +53,7 @@ const ContactForm = () => {
           type="email"
           {...register("email")}
           className={`w-full p-2 text-gray-900 border ${
-            errors.email ? "border-red-500" : "border-gray-300"
+            errors.email ? "border-red-500" : "border-green-500"
           } rounded`}
         />
         {errors.email && (
@@ -69,7 +69,7 @@ const ContactForm = () => {
           id="message"
           {...register("message")}
           className={`w-full p-2 text-gray-900 border ${
-            errors.message ? "border-red-500" : "border-gray-300"
+            errors.message ? "border-red-500" : "border-green-500"
           } rounded`}
           rows="4"
         />
@@ -80,7 +80,7 @@ const ContactForm = () => {
 
       <button
         type="submit"
-        className="w-full p-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+        className="w-full p-2 bg-gray-400 hover:bg-green-600 text-white rounded"
       >
         Submit
       </button>
