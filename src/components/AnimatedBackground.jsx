@@ -1,73 +1,118 @@
-import React, { useEffect, useRef } from "react";
-import * as THREE from "three";
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPython, faJava, faJs, faAws, faDocker, faReact } from "@fortawesome/free-brands-svg-icons";
 
 const AnimatedBackground = () => {
-    const canvasRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [iconPositions, setIconPositions] = useState([]);
+
+  const icons = [
+    { icon: faPython, color: "#3776AB" }, // Python Blue
+    { icon: faJava, color: "#E76F00" }, // Java Orange
+    { icon: faJs, color: "#F7DF1E" }, // JavaScript Yellow
+    { icon: faAws, color: "#FF9900" }, // AWS Orange
+    { icon: faDocker, color: "#2496ED" }, // Docker Blue
+    { icon: faReact, color: "#61DBFB" }, // React Cyan
+  ];
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    // Set canvas dimensions
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Resize canvas to fit screen
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
 
-    const fontSize = 16; // Font size of the characters
-    const columns = Math.floor(canvas.width / fontSize); // Number of columns
-    const drops = Array(columns).fill(1); // Y positions for each column
+    const fontSize = 18;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1);
+
+    // Generate static icon positions
+    const generateIconPositions = () => {
+      let positions = [];
+      for (let i = 0; i < columns; i += Math.floor(Math.random() * 4) + 1) {
+        positions.push({
+          column: i,
+          y: Math.random() * window.innerHeight,
+          iconData: icons[Math.floor(Math.random() * icons.length)],
+          speed: Math.random() * 2 + 1,
+        });
+      }
+      setIconPositions(positions);
+    };
+
+    generateIconPositions();
 
     const drawMatrix = () => {
-      // Set background with slight opacity for trailing effect
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Set text properties
-      ctx.fillStyle = "#0f0"; // Green text
+      ctx.fillStyle = "#0f0";
       ctx.font = `${fontSize}px monospace`;
 
+      // Draw the matrix rain with 1s and 0s
       for (let i = 0; i < drops.length; i++) {
-        const text = Math.random() > 0.5 ? "1" : "0"; // Randomly choose 1 or 0
-        const x = i * fontSize; // X-coordinate
-        const y = drops[i] * fontSize; // Y-coordinate
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
 
-        // Draw the character
-        ctx.fillText(text, x, y);
+        ctx.fillText(Math.random() > 0.5 ? "1" : "0", x, y);
 
-        // Randomly reset drop position or move down
         if (y > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0; // Reset to top
+          drops[i] = 0;
         }
         drops[i]++;
       }
     };
 
-    const interval = setInterval(drawMatrix, 50);
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener("resize", handleResize);
+    const interval = setInterval(drawMatrix, 100);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", resizeCanvas);
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        zIndex: -1,
-        width: "100%",
-        height: "100%",
-      }}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          zIndex: -1,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+      {iconPositions.map((pos, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: "100vh" }}
+          transition={{ duration: pos.speed * 5, repeat: Infinity, ease: "linear" }}
+          whileHover={{
+            scale: 1.3, // Slight zoom effect on hover
+            y: "-10px", // Move up slightly when hovered
+            transition: { duration: 0.3 },
+          }}
+          style={{
+            position: "fixed",
+            left: `${pos.column * 18}px`, // Align icons with matrix rain columns
+            top: pos.y,
+            fontSize: "30px",
+            color: pos.iconData.color,
+            textShadow: `0 0 10px ${pos.iconData.color}, 0 0 20px ${pos.iconData.color}`,
+          }}
+        >
+          <FontAwesomeIcon icon={pos.iconData.icon} />
+        </motion.div>
+      ))}
+    </>
   );
 };
 
