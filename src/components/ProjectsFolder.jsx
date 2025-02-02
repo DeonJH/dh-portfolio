@@ -13,10 +13,10 @@ const ProjectsFolder = () => {
   ];
 
   return (
-    <div className="relative m-10">
+    <div>
       {/* Folder Icon */}
       <button
-        className="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-800 transition"
+        className="flex space-x-2 p-4 rounded-lg hover:bg-gray-800 transition"
         onClick={() => setIsOpen(!isOpen)}
       >
         <FontAwesomeIcon icon={faFolder} className="text-yellow-400 text-2xl" />
@@ -25,7 +25,7 @@ const ProjectsFolder = () => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-50">
+        <div className="mt-2 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-50">
           <ul className="py-2">
             {projects.map((project, index) => (
               <li key={index}>

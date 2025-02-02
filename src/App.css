@@ -1,26 +1,6 @@
 #root {
   max-width: 1280px;
-  width: 90%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-.container {
-  display: flex;
-  flex-wrap: wrap; /* Allows items to stack on smaller screens */
-  justify-content: center;
-}
-
-.item {
-  flex: 1 1 300px; /* Each item takes up equal space, min 300px */
-}
-
-@media (max-width: 768px) {
-  #root {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
-  }
 }
