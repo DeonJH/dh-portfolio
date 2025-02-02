@@ -16,7 +16,7 @@ function Hero() {
                 <LinkedInProfileCard />
                 <GitHubPreviewCard />
             </div>
-            <div className="ml-4 flex"><SocialsBar /></div>
+            {/* <div className="ml-4 flex"><SocialsBar /></div> */}
 
             {/* <ProjectsFolder /> */}
 
