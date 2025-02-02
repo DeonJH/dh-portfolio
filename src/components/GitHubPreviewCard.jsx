@@ -4,7 +4,7 @@ import GitHubLogo from "../assets/GitHubLogo.png";
 const GitHubPreviewCard = () => {
   return (
     <a href="https://github.com/DeonJH">
-      <div className="group bg-gray-900 flex flex-col justify-center rounded-lg shadow-md border border-gray-500 hover:bg-gray-800">
+      <div className="group bg-gray-900 flex flex-col justify-center rounded-lg shadow-md hover:bg-gray-800">
         <div className="p-2 flex flex-col items-center">
           <img src={GitHubLogo} className="mb-2 w-16" />
 

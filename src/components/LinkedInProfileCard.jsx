@@ -6,7 +6,7 @@ const LinkedInProfileCard = () => {
   return (
     <a
       href="https://linkedin.com/in/deon-hill">
-      <div id="md" className="group flex items-center p-4 bg-gray-900 rounded-lg shadow-md border border-gray-500 hover:bg-gray-800">
+      <div id="md" className="group flex items-center p-4 bg-gray-900 rounded-lg shadow-md hover:bg-gray-800">
         <div className="flex flex-col items-center gap-4">
 
             <img src={LILogo} className="w-16" />
