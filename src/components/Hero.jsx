@@ -23,7 +23,7 @@ function Hero() {
             <div className="text-xl">
                 <p className="p-6 text-center">Hello and welcome! Here, you’ll find a showcase of my passion for technology. 
                     From developing innovative software to exploring the world of data engineering,
-                    data science, cyber security, and AI, every project reflects my drive make an impact.
+                    data science, cybersecurity, and AI, every project reflects my drive to make an impact.
                     Technology is a journey of endless discovery, and I’m thrilled to share a glimpse of mine with you!</p>
             </div>
         </section>
