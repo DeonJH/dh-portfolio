@@ -5,15 +5,15 @@ function Projects() {
     const projectList = [
         {
             title: "Project 1",
-            description: "A cool project using React and TailwindCSS.",
+            description: "",
         },
         {
             title: "Project 2",
-            description: "A backend API built with Python and Flask.",
+            description: "",
         },
         {
             title: "Project 3",
-            description: "A data pipeline solution using Java and AWS services.",
+            description: "",
         },
     ];
 
