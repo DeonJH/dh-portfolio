@@ -1,4 +1,3 @@
-import React from "react";
 import ProfileImage from "../assets/ProfileImage.jpg";
 import LILogo from "../assets/LI-Logo.png";
 

@@ -4,3 +4,10 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #020202;
 }
+
+.gradient-text {
+  background: linear-gradient(135deg, #10b981, #059669);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

@@ -1,4 +1,3 @@
-import React from "react";
 import GitHubLogo from "../assets/GitHubLogo.png";
 
 const GitHubPreviewCard = () => {
