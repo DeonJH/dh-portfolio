@@ -11,7 +11,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative">
+    <section id="hero" className="min-h-screen flex items-center justify-center relative pt-20 md:pt-24">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Text Content */}
         <div className="text-center lg:text-left z-10 bg-gradient-to-r from-gray-900 via-black to-gray-900 
@@ -31,19 +31,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl sm:text-2xl lg:text-3xl text-gray-100 mb-8 font-light drop-shadow-lg"
           >
-            Building Intelligent Systems & Automations
+            Engineering for Efficiency & Optimizing Workflows!
           </motion.p>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg text-gray-200 mb-12 max-w-2xl mx-auto lg:mx-0 drop-shadow-md"
-          >
-            Software Engineering, AI agents, workflow automation, and data engineering.
-            Passionate about creating intelligent systems that solve real world problems.
-          </motion.p>
-          
+        
           <motion.button
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

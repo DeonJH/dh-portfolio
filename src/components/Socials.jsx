@@ -39,7 +39,9 @@ const Socials = () => {
                     viewport={{ once: true }}
                     className="text-center mb-8"
                 >
-                    <h2 className="text-3xl font-bold text-white mb-2">Let&apos;s Connect</h2>
+                    <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+                        <span className="gradient-text">Let&apos;s Connect</span>
+                    </h2>
                     <p className="text-gray-400">Find me on these platforms</p>
                 </motion.div>
 
