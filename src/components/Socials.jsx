@@ -42,7 +42,6 @@ const Socials = () => {
                     <h2 className="text-4xl sm:text-5xl font-bold mb-6">
                         <span className="gradient-text">Let&apos;s Connect</span>
                     </h2>
-                    <p className="text-xl text-gray-300 mb-8">Ready to collaborate? Reach out through any of these channels.</p>
                 </motion.div>
 
                 <div className="flex justify-center items-center gap-8 flex-wrap">
