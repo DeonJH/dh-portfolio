@@ -37,44 +37,37 @@ const Socials = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     viewport={{ once: true }}
-                    className="text-center mb-8"
+                    className="text-center mb-12"
                 >
                     <h2 className="text-4xl sm:text-5xl font-bold mb-6">
                         <span className="gradient-text">Let&apos;s Connect</span>
                     </h2>
-                    <p className="text-gray-400">Find me on these platforms</p>
+                    <p className="text-xl text-gray-300 mb-8">Ready to collaborate? Reach out through any of these channels.</p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="flex justify-center items-center gap-8 flex-wrap">
                     {socialLinks.map((social, index) => (
                         <motion.a
                             key={social.name}
                             href={social.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            initial={{ opacity: 0, y: 50 }}
+                            initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            whileHover={{ scale: 1.05, y: -5 }}
+                            whileHover={{ scale: 1.05 }}
                             className="group"
                         >
-                            <div className={`bg-gradient-to-br ${social.color} ${social.hoverColor} 
-                                          p-6 rounded-xl shadow-lg transition-all duration-300 
-                                          border border-gray-500/30 backdrop-blur-sm
-                                          group-hover:shadow-2xl group-hover:border-gray-400/50`}>
-                                <div className="flex flex-col items-center text-center space-y-3">
-                                    <div className="p-3 bg-white/10 rounded-full backdrop-blur-sm">
-                                        <social.icon size={24} className="text-white" />
-                                    </div>
-                                    
-                                    <h3 className="text-lg font-semibold text-white">{social.name}</h3>
-                                    
-                                    <div className="flex items-center text-white/80 group-hover:text-white transition-colors">
-                                        <span className="text-sm font-medium">Connect</span>
-                                        <ExternalLink size={14} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                                    </div>
-                                </div>
+                            <div className="flex items-center gap-3 px-6 py-3 bg-gray-800/50 border border-gray-600 
+                                          rounded-full hover:border-gray-500 transition-all duration-300 
+                                          backdrop-blur-sm hover:bg-gray-700/50">
+                                <social.icon size={20} className={`${
+                                    social.name === 'LinkedIn' ? 'text-blue-400' :
+                                    social.name === 'GitHub' ? 'text-gray-300' :
+                                    'text-green-400'
+                                }`} />
+                                <span className="text-gray-200 font-medium">{social.name}</span>
                             </div>
                         </motion.a>
                     ))}
