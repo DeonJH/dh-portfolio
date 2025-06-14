@@ -61,8 +61,8 @@ const Hero = () => {
             <img
               src="assets/LNProfilePic.jpg"
               alt="Deon Hill - Software Engineer"
-              className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-full object-cover 
-                        border-4 border-gray-500 shadow-2xl"
+              className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96 
+                        rounded-full object-cover border-4 border-gray-500 shadow-2xl max-w-full max-h-[50vh]"
             />
           </div>
         </motion.div>
