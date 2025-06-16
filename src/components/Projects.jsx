@@ -3,22 +3,23 @@ import { ExternalLink, Github } from 'lucide-react';
 
 function Projects() {
     const projects = [
-        {
-            title: 'Real-time Analytics Pipeline',
-            description: 'Built a scalable data pipeline processing 100K+ events per minute using Apache Kafka, Spark, and Airflow. Features real-time dashboards with Grafana and automated anomaly detection.',
-            techStack: ['Apache Kafka', 'Apache Spark', 'Airflow', 'Grafana', 'PostgreSQL', 'Docker'],
-            image: 'https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=800',
-            github: '#',
-            demo: '#'
-        },
+
         {
             title: 'Automated Tech News Digest',
-            description: 'Weekly n8n workflow that scrapes RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, uses GPT-4o-mini for AI summarization, and automatically saves to Google Sheets for portfolio integration.',
-            techStack: ['n8n', 'RSS Feeds', 'GPT-4o-mini', 'Google Sheets API', 'Webhook Automation', 'Content Curation'],
+            description: 'Live automation powering the "Weekly Tech News" section of this portfolio! Built with n8n to scrape RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, uses GPT-4o-mini for AI summarization, saves to Google Sheets, and dynamically displays in my portfolio via Google Sheets API integration.',
+            techStack: ['n8n', 'RSS Feeds', 'Google Sheets API', 'Google Cloud Platform', 'Webhook Automation', 'Content Curation'],
             image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=800',
             github: '#',
             demo: '#'
         }
+        // {
+        //     title: 'Real-time Analytics Pipeline',
+        //     description: 'Built a scalable data pipeline processing 100K+ events per minute using Apache Kafka, Spark, and Airflow. Features real-time dashboards with Grafana and automated anomaly detection.',
+        //     techStack: ['Apache Kafka', 'Apache Spark', 'Airflow', 'Grafana', 'PostgreSQL', 'Docker'],
+        //     image: 'https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=800',
+        //     github: '#',
+        //     demo: '#'
+        // },
         // {
         //     title: 'Calendly Meeting Automation',
         //     description: 'Intelligent n8n workflow that automatically creates and sends meeting invites when appointments are scheduled via Calendly. Users can choose between Google Meet or MS Teams, with automated email confirmations and calendar integration.',
@@ -71,7 +72,7 @@ function Projects() {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className={`grid gap-8 ${projects.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 lg:grid-cols-2'}`}>
                     {projects.map((project, index) => (
                         <motion.div
                             key={index}
