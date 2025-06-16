@@ -9,8 +9,8 @@ function Projects() {
             description: 'Live automation powering the "Weekly Tech News" section of this portfolio! Built with n8n to scrape RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, uses GPT-4o-mini for AI summarization, saves to Google Sheets, and dynamically displays in my portfolio via Google Sheets API integration.',
             techStack: ['n8n', 'RSS Feeds', 'Google Sheets API', 'Google Cloud Platform', 'Webhook Automation', 'Content Curation'],
             image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=800',
-            github: '#',
-            demo: '#'
+            github: null,
+            demo: null
         }
         // {
         //     title: 'Real-time Analytics Pipeline',
@@ -111,20 +111,28 @@ function Projects() {
                                 </div>
                                 
                                 <div className="flex gap-4">
-                                    <a
-                                        href={project.github}
-                                        className="flex items-center gap-2 text-gray-300 hover:text-green-400 transition-colors"
-                                    >
-                                        <Github size={20} />
-                                        <span>Code</span>
-                                    </a>
-                                    <a
-                                        href={project.demo}
-                                        className="flex items-center gap-2 text-gray-300 hover:text-green-400 transition-colors"
-                                    >
-                                        <ExternalLink size={20} />
-                                        <span>Live Demo</span>
-                                    </a>
+                                    {project.github && project.github !== '#' && (
+                                        <a
+                                            href={project.github}
+                                            className="flex items-center gap-2 text-gray-300 hover:text-green-400 transition-colors"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Github size={20} />
+                                            <span>Code</span>
+                                        </a>
+                                    )}
+                                    {project.demo && project.demo !== '#' && (
+                                        <a
+                                            href={project.demo}
+                                            className="flex items-center gap-2 text-gray-300 hover:text-green-400 transition-colors"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <ExternalLink size={20} />
+                                            <span>Live Demo</span>
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>
