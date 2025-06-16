@@ -1,0 +1,39 @@
+# Calendly Meeting Automation - Environment Variables Template
+# Copy these values to your n8n environment or .env file
+
+# n8n Configuration
+N8N_WEBHOOK_URL=https://your-n8n-instance.com/webhook/calendly-webhook
+
+# Google APIs
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URI=https://your-n8n-instance.com/rest/oauth2-credential/callback
+
+# Microsoft Graph API
+MICROSOFT_CLIENT_ID=your_microsoft_client_id
+MICROSOFT_CLIENT_SECRET=your_microsoft_client_secret
+MICROSOFT_TENANT_ID=your_tenant_id
+
+# Email Configuration (Choose one)
+# SMTP Configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+SMTP_SECURE=true
+
+# SendGrid Configuration (Alternative)
+SENDGRID_API_KEY=your_sendgrid_api_key
+FROM_EMAIL=your-sender@domain.com
+FROM_NAME=Your Name
+
+# Slack Integration (Optional)
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
+
+# Calendly Configuration
+CALENDLY_WEBHOOK_SIGNING_KEY=your_calendly_signing_key
+
+# Optional: Default Settings
+DEFAULT_MEETING_PLATFORM=google-meet
+DEFAULT_MEETING_DURATION=30
+DEFAULT_TIME_ZONE=America/New_York 

@@ -1,0 +1,293 @@
+{
+  "name": "Calendly Meeting Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "calendly-webhook",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Calendly Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "calendly-meeting-scheduled"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract and process Calendly event data\nconst payload = $input.first().json;\nconst event = payload.payload;\n\n// Extract meeting details\nconst meetingData = {\n  eventId: event.uuid,\n  eventName: event.name,\n  startTime: event.start_time,\n  endTime: event.end_time,\n  timezone: event.timezone,\n  meetingUrl: event.location?.join_url || '',\n  organizer: {\n    name: event.event_memberships[0]?.user?.name || 'Host',\n    email: event.event_memberships[0]?.user?.email || ''\n  },\n  invitee: {\n    name: payload.payload.invitee?.name || 'Guest',\n    email: payload.payload.invitee?.email || '',\n    responses: payload.payload.invitee?.text_reminder_number || {}\n  }\n};\n\n// Check for meeting platform preference from form responses\nlet meetingPlatform = 'google-meet'; // default\nif (payload.payload.questions_and_responses) {\n  const responses = payload.payload.questions_and_responses;\n  const platformResponse = responses.find(r => \n    r.question.toLowerCase().includes('meeting platform') || \n    r.question.toLowerCase().includes('prefer')\n  );\n  \n  if (platformResponse) {\n    if (platformResponse.response.toLowerCase().includes('teams') || \n        platformResponse.response.toLowerCase().includes('microsoft')) {\n      meetingPlatform = 'ms-teams';\n    }\n  }\n}\n\nmeetingData.preferredPlatform = meetingPlatform;\n\nreturn { json: meetingData };"
+      },
+      "id": "process-data",
+      "name": "Process Meeting Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "platform-check",
+              "leftValue": "={{ $json.preferredPlatform }}",
+              "rightValue": "ms-teams",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "platform-switch",
+      "name": "Platform Switch",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/me/onlineMeetings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftTeamsOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "startDateTime",
+              "value": "={{ $json.startTime }}"
+            },
+            {
+              "name": "endDateTime", 
+              "value": "={{ $json.endTime }}"
+            },
+            {
+              "name": "subject",
+              "value": "={{ $json.eventName }} - Scheduled Meeting"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-teams-meeting",
+      "name": "Create MS Teams Meeting",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleCalendarOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "summary",
+              "value": "={{ $json.eventName }} - Scheduled Meeting"
+            },
+            {
+              "name": "start",
+              "value": "={{ { \"dateTime\": $json.startTime, \"timeZone\": $json.timezone } }}"
+            },
+            {
+              "name": "end",
+              "value": "={{ { \"dateTime\": $json.endTime, \"timeZone\": $json.timezone } }}"
+            },
+            {
+              "name": "attendees",
+              "value": "={{ [{ \"email\": $json.invitee.email }] }}"
+            },
+            {
+              "name": "conferenceData",
+              "value": "={{ { \"createRequest\": { \"requestId\": $json.eventId, \"conferenceSolutionKey\": { \"type\": \"hangoutsMeet\" } } } }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-google-meet",
+      "name": "Create Google Meet",
+      "type": "n8n-nodes-base.httpRequest", 
+      "typeVersion": 4.1,
+      "position": [900, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge meeting creation results with original data\nconst originalData = $input.first().json;\nconst meetingResult = $input.last().json;\n\nlet meetingDetails = {\n  ...originalData,\n  meetingCreated: true,\n  timestamp: new Date().toISOString()\n};\n\nif (originalData.preferredPlatform === 'ms-teams') {\n  meetingDetails.meetingUrl = meetingResult.joinWebUrl;\n  meetingDetails.meetingId = meetingResult.id;\n  meetingDetails.platform = 'Microsoft Teams';\n} else {\n  meetingDetails.meetingUrl = meetingResult.conferenceData?.entryPoints?.[0]?.uri || meetingResult.hangoutLink;\n  meetingDetails.meetingId = meetingResult.id;\n  meetingDetails.platform = 'Google Meet';\n}\n\nreturn { json: meetingDetails };"
+      },
+      "id": "merge-results",
+      "name": "Merge Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "{{ $json.organizer.email }}",
+        "toEmail": "{{ $json.invitee.email }}",
+        "subject": "Meeting Confirmed: {{ $json.eventName }}",
+        "message": "=Hi {{ $json.invitee.name }},\n\nYour meeting has been confirmed!\n\n📅 **Meeting Details:**\n• Event: {{ $json.eventName }}\n• Date: {{ DateTime.fromISO($json.startTime).toFormat('MMMM dd, yyyy') }}\n• Time: {{ DateTime.fromISO($json.startTime).toFormat('h:mm a') }} - {{ DateTime.fromISO($json.endTime).toFormat('h:mm a') }}\n• Platform: {{ $json.platform }}\n• Meeting Link: {{ $json.meetingUrl }}\n\n🎯 **What's Next:**\n1. Add this meeting to your calendar\n2. Join using the link above at the scheduled time\n3. Test your audio/video before the meeting\n\nLooking forward to our conversation!\n\nBest regards,\n{{ $json.organizer.name }}",
+        "options": {
+          "html": true
+        }
+      },
+      "id": "send-confirmation",
+      "name": "Send Confirmation Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.webhookUrl || 'https://hooks.slack.com/your-webhook-url' }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=🎉 New meeting scheduled!\n\n👤 **Attendee:** {{ $json.invitee.name }} ({{ $json.invitee.email }})\n📅 **Event:** {{ $json.eventName }}\n🕐 **Time:** {{ DateTime.fromISO($json.startTime).toFormat('MMM dd, h:mm a') }}\n💻 **Platform:** {{ $json.platform }}\n🔗 **Meeting:** {{ $json.meetingUrl }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "slack-notification",
+      "name": "Slack Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1340, 500]
+    }
+  ],
+  "connections": {
+    "Calendly Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Meeting Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Meeting Data": {
+      "main": [
+        [
+          {
+            "node": "Platform Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Platform Switch": {
+      "main": [
+        [
+          {
+            "node": "Create MS Teams Meeting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Google Meet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create MS Teams Meeting": {
+      "main": [
+        [
+          {
+            "node": "Merge Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Google Meet": {
+      "main": [
+        [
+          {
+            "node": "Merge Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Results": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z",
+      "id": "automation",
+      "name": "automation"
+    },
+    {
+      "createdAt": "2024-01-15T10:00:00.000Z", 
+      "updatedAt": "2024-01-15T10:00:00.000Z",
+      "id": "calendly",
+      "name": "calendly"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-15T10:00:00.000Z",
+  "versionId": "1"
+} 

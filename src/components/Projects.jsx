@@ -12,29 +12,45 @@ function Projects() {
             demo: '#'
         },
         {
-            title: 'AI Support Agent',
-            description: 'Developed an intelligent IT support agent using OpenAI GPT-4 and LangChain. Automatically categorizes, prioritizes, and resolves 60% of tickets without human intervention.',
-            techStack: ['OpenAI GPT-4', 'LangChain', 'Python', 'FastAPI', 'Supabase', 'Docker'],
-            image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
-            github: '#',
-            demo: '#'
-        },
-        {
-            title: 'Lead Qualification Automation',
-            description: 'Created an end-to-end lead qualification system using n8n workflows. Integrates with CRM, email marketing, and scoring algorithms to qualify leads automatically.',
-            techStack: ['n8n', 'TypeScript', 'Supabase', 'OpenAI API', 'Webhook APIs', 'Zapier'],
-            image: 'https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800',
-            github: '#',
-            demo: '#'
-        },
-        {
-            title: 'Smart Document Processor',
-            description: 'Built an AI-powered document processing system that extracts, categorizes, and indexes documents using computer vision and NLP. Reduced manual processing time by 80%.',
-            techStack: ['Python', 'OpenCV', 'Tesseract', 'spaCy', 'FastAPI', 'Redis', 'PostgreSQL'],
-            image: 'https://images.pexels.com/photos/5496464/pexels-photo-5496464.jpeg?auto=compress&cs=tinysrgb&w=800',
+            title: 'Automated Tech News Digest',
+            description: 'Weekly n8n workflow that scrapes RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, uses GPT-4o-mini for AI summarization, and automatically saves to Google Sheets for portfolio integration.',
+            techStack: ['n8n', 'RSS Feeds', 'GPT-4o-mini', 'Google Sheets API', 'Webhook Automation', 'Content Curation'],
+            image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=800',
             github: '#',
             demo: '#'
         }
+        // {
+        //     title: 'Calendly Meeting Automation',
+        //     description: 'Intelligent n8n workflow that automatically creates and sends meeting invites when appointments are scheduled via Calendly. Users can choose between Google Meet or MS Teams, with automated email confirmations and calendar integration.',
+        //     techStack: ['n8n', 'Calendly API', 'Google Meet API', 'MS Teams API', 'Webhook Integration', 'Email Automation'],
+        //     image: 'https://images.pexels.com/photos/4560083/pexels-photo-4560083.jpeg?auto=compress&cs=tinysrgb&w=800',
+        //     github: '#',
+        //     demo: '#'
+        // },
+        // {
+        //     title: 'AI Support Agent',
+        //     description: 'Developed an intelligent IT support agent using OpenAI GPT-4 and LangChain. Automatically categorizes, prioritizes, and resolves 60% of tickets without human intervention.',
+        //     techStack: ['OpenAI GPT-4', 'LangChain', 'Python', 'FastAPI', 'Supabase', 'Docker'],
+        //     image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
+        //     github: '#',
+        //     demo: '#'
+        // },
+        // {
+        //     title: 'Lead Qualification Automation',
+        //     description: 'Created an end-to-end lead qualification system using n8n workflows. Integrates with CRM, email marketing, and scoring algorithms to qualify leads automatically.',
+        //     techStack: ['n8n', 'TypeScript', 'Supabase', 'OpenAI API', 'Webhook APIs', 'Zapier'],
+        //     image: 'https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800',
+        //     github: '#',
+        //     demo: '#'
+        // },
+        // {
+        //     title: 'Smart Document Processor',
+        //     description: 'Built an AI-powered document processing system that extracts, categorizes, and indexes documents using computer vision and NLP. Reduced manual processing time by 80%.',
+        //     techStack: ['Python', 'OpenCV', 'Tesseract', 'spaCy', 'FastAPI', 'Redis', 'PostgreSQL'],
+        //     image: 'https://images.pexels.com/photos/5496464/pexels-photo-5496464.jpeg?auto=compress&cs=tinysrgb&w=800',
+        //     github: '#',
+        //     demo: '#'
+        // }
     ];
 
     return (
@@ -51,7 +67,7 @@ function Projects() {
                         <span className="gradient-text">Featured Projects</span>
                     </h2>
                     <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Here are some of my recent projects showcasing my expertise in AI, automation, and data engineering.
+                        Here are some of my recent projects showcasing my expertise in AI, automation, data engineering and software engineering.
                     </p>
                 </motion.div>
 
