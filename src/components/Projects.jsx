@@ -6,9 +6,9 @@ function Projects() {
 
         {
             title: 'Automated Tech News Digest',
-            description: 'Live automation powering the "Weekly Tech News" section of this portfolio! Built with n8n to scrape RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, uses GPT-4o-mini for AI summarization, saves to Google Sheets, and dynamically displays in my portfolio via Google Sheets API integration.',
+            description: 'Live automation powering the "Weekly Tech News" section of this portfolio! Built with n8n to weekly scrape RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, uses GPT-4o-mini for AI summarization, saves to Google Sheets, and dynamically displays in my portfolio via Google Sheets API integration.',
             techStack: ['n8n', 'RSS Feeds', 'Google Sheets API', 'Google Cloud Platform', 'Webhook Automation', 'Content Curation'],
-            image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=800',
+            image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
             github: null,
             demo: null
         }
@@ -99,7 +99,7 @@ function Projects() {
                                 </h3>
                                 <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
                                 
-                                <div className="flex flex-wrap gap-2 mb-6">
+                                <div className="flex flex-wrap gap-2 mb-6 justify-center">
                                     {project.techStack.map((tech, techIndex) => (
                                         <span
                                             key={techIndex}

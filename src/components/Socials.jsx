@@ -162,10 +162,10 @@ const Socials = () => {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.5 }}
                         className="bg-gradient-to-r from-gray-900 via-black to-gray-900 border border-gray-500 
-                                   rounded-xl p-6 shadow-lg backdrop-blur-sm"
+                                   rounded-xl p-4 sm:p-6 shadow-lg backdrop-blur-sm"
                     >
                         {/* Meeting benefits */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <div className="bg-gray-800/50 p-4 rounded-lg text-center">
                                 <Users className="mx-auto mb-2 text-blue-400" size={20} />
                                 <h4 className="font-semibold text-white text-sm">Discuss Your Project Needs</h4>
@@ -193,9 +193,9 @@ const Socials = () => {
                             
                             <div 
                                 id="calendly-inline-widget-socials"
-                                className="calendly-inline-widget rounded-lg overflow-hidden border border-gray-600" 
+                                className="calendly-inline-widget rounded-lg overflow-hidden border border-gray-600 w-full h-96 md:h-[600px]" 
                                 data-url="https://calendly.com/hill-d"
-                                style={{ minWidth: '320px', height: '600px', backgroundColor: '#1f2937' }}
+                                style={{ backgroundColor: '#1f2937' }}
                             >
                                 {/* Fallback content if widget fails to load */}
                                 <div className="flex items-center justify-center h-full bg-gray-800">
