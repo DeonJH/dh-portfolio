@@ -11,7 +11,15 @@ function Projects() {
             image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
             github: null,
             demo: null
-        }
+        },
+        {
+            title: 'AI-Powered Finance Assistant',
+            description: 'AI agent built with LangChain, FastAPI, and Streamlit that helps users analyze and understand their personal spending. Reads spending data from a CSV file, summarizes category totals, and answers natural language questions using GPT-3.5 Turbo. Features real-time chat UI, persistent conversation memory, error handling, and clean UX.',
+            techStack: ['LangChain', 'LangGraph', 'LangSmith', 'Streamlit', 'FastAPI', 'OpenAI GPT-3.5 Turbo', 'Pandas', 'Python'],
+            image: '/assets/finance-assistant.png',
+            github: null,
+            demo: null
+        }        
         // {
         //     title: 'Real-time Analytics Pipeline',
         //     description: 'Built a scalable data pipeline processing 100K+ events per minute using Apache Kafka, Spark, and Airflow. Features real-time dashboards with Grafana and automated anomaly detection.',
