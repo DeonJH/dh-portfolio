@@ -72,7 +72,8 @@ function About() {
                     <p className="text-lg text-gray-300 leading-relaxed">
                         My journey began in software development, but I quickly became fascinated by the potential 
                         of AI and automation. While continuing to sharpen my software engineering skills,
-                        I’ve delved deeply into machine learning, data pipelines, and workflow automation tools like n8n.
+                        I’ve delved deeply into machine learning, data pipelines, building AI agents with LangChain, 
+                        and workflow automation tools like n8n.
                         I believe the future lies in creating intelligent systems that 
                         can understand, learn, and act autonomously to solve real world problems.
                     </p>
