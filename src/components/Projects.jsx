@@ -20,46 +20,6 @@ function Projects() {
             github: null,
             demo: null
         }        
-        // {
-        //     title: 'Real-time Analytics Pipeline',
-        //     description: 'Built a scalable data pipeline processing 100K+ events per minute using Apache Kafka, Spark, and Airflow. Features real-time dashboards with Grafana and automated anomaly detection.',
-        //     techStack: ['Apache Kafka', 'Apache Spark', 'Airflow', 'Grafana', 'PostgreSQL', 'Docker'],
-        //     image: 'https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=800',
-        //     github: '#',
-        //     demo: '#'
-        // },
-        // {
-        //     title: 'Calendly Meeting Automation',
-        //     description: 'Intelligent n8n workflow that automatically creates and sends meeting invites when appointments are scheduled via Calendly. Users can choose between Google Meet or MS Teams, with automated email confirmations and calendar integration.',
-        //     techStack: ['n8n', 'Calendly API', 'Google Meet API', 'MS Teams API', 'Webhook Integration', 'Email Automation'],
-        //     image: 'https://images.pexels.com/photos/4560083/pexels-photo-4560083.jpeg?auto=compress&cs=tinysrgb&w=800',
-        //     github: '#',
-        //     demo: '#'
-        // },
-        // {
-        //     title: 'AI Support Agent',
-        //     description: 'Developed an intelligent IT support agent using OpenAI GPT-4 and LangChain. Automatically categorizes, prioritizes, and resolves 60% of tickets without human intervention.',
-        //     techStack: ['OpenAI GPT-4', 'LangChain', 'Python', 'FastAPI', 'Supabase', 'Docker'],
-        //     image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
-        //     github: '#',
-        //     demo: '#'
-        // },
-        // {
-        //     title: 'Lead Qualification Automation',
-        //     description: 'Created an end-to-end lead qualification system using n8n workflows. Integrates with CRM, email marketing, and scoring algorithms to qualify leads automatically.',
-        //     techStack: ['n8n', 'TypeScript', 'Supabase', 'OpenAI API', 'Webhook APIs', 'Zapier'],
-        //     image: 'https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800',
-        //     github: '#',
-        //     demo: '#'
-        // },
-        // {
-        //     title: 'Smart Document Processor',
-        //     description: 'Built an AI-powered document processing system that extracts, categorizes, and indexes documents using computer vision and NLP. Reduced manual processing time by 80%.',
-        //     techStack: ['Python', 'OpenCV', 'Tesseract', 'spaCy', 'FastAPI', 'Redis', 'PostgreSQL'],
-        //     image: 'https://images.pexels.com/photos/5496464/pexels-photo-5496464.jpeg?auto=compress&cs=tinysrgb&w=800',
-        //     github: '#',
-        //     demo: '#'
-        // }
     ];
 
     return (
