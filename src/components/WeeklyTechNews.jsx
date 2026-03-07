@@ -155,7 +155,7 @@ const SetupInstructions = ({ onClose }) => (
                 <strong className="text-white">Step 2: Configure API Key</strong>
                 <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
                     <li>Create a <code className="bg-gray-800 px-1 rounded">.env</code> file in your project root</li>
-                    <li>Add: <code className="bg-gray-800 px-1 rounded">REACT_APP_GOOGLE_API_KEY=your_api_key_here</code></li>
+                    <li>Add: <code className="bg-gray-800 px-1 rounded">VITE_GOOGLE_API_KEY=your_api_key_here</code></li>
                     <li>Restart your development server</li>
                 </ul>
             </div>
