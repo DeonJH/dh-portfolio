@@ -1,281 +1,196 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { RefreshCw, ExternalLink, Settings, TestTube, AlertCircle } from 'lucide-react';
 
-// Test content for fallback
-const TEST_CONTENT = `🚀 This Week in Tech - December 16, 2024
-
-🤖 AI & Machine Learning
-• OpenAI releases GPT-4 Turbo with improved reasoning capabilities
-• Google announces Gemini Ultra, claiming to surpass GPT-4 in benchmarks
-• Microsoft integrates Copilot deeper into Office 365 suite
-
-💻 Software Development
-• React 19 enters beta with new concurrent features
-• Node.js 21 released with improved performance optimizations
-• TypeScript 5.3 introduces new syntax for better type inference
-
-🔐 Cybersecurity
-• Major vulnerability discovered in popular npm package affecting millions
-• New zero-day exploit in Windows patched in emergency update
-• Chrome implements enhanced sandboxing for better security
-
-🌐 Web & Cloud
-• AWS announces new serverless computing options
-• Cloudflare introduces enhanced DDoS protection
-• Progressive Web Apps gain new capabilities in latest browser updates
-
-📱 Mobile & Hardware
-• Apple confirms USB-C adoption across entire product line
-• Samsung unveils new foldable display technology
-• Qualcomm's latest chip promises 40% better battery efficiency
-
-This content is loaded from test data for debugging purposes.`;
-
-// Google Sheets configuration with safer environment variable access
+// Legacy: Google Sheets v1 configuration
 const SHEET_CONFIG = {
     SHEET_ID: '1UB5XZJO4SRoHtv7lgCRVuiun5-_aTLggozxEw3bvI1Q',
-    API_KEY: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GOOGLE_API_KEY) || 
-             (typeof process !== 'undefined' && process.env?.REACT_APP_GOOGLE_API_KEY) || 
+    API_KEY: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GOOGLE_API_KEY) ||
+             (typeof process !== 'undefined' && process.env?.REACT_APP_GOOGLE_API_KEY) ||
              null,
     RANGE: 'Sheet1!A:Z'
 };
 
-
-
 /**
- * Simple Google Sheets API call with enhanced error handling
+ * Legacy: Google Sheets v1 data source (n8n + RSS pipeline, no longer active)
  */
 const fetchGoogleSheetContent = async () => {
-    try {
-        if (!SHEET_CONFIG.API_KEY) {
-            throw new Error('Google API key not found. Please add REACT_APP_GOOGLE_API_KEY to your .env file.');
+    if (!SHEET_CONFIG.API_KEY) throw new Error('Google API key not configured.');
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_CONFIG.SHEET_ID}/values/${SHEET_CONFIG.RANGE}?key=${SHEET_CONFIG.API_KEY}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Sheets API error: ${response.status}`);
+    const data = await response.json();
+    if (!data.values || data.values.length < 2) throw new Error('No data in sheet.');
+    const headers = data.values[0];
+    const contentIndex = headers.findIndex(h =>
+        h && (h.toLowerCase().includes('content') || h.toLowerCase().includes('summary') || h.toLowerCase().includes('digest'))
+    );
+    if (contentIndex === -1) throw new Error('Content column not found.');
+    return data.values[1][contentIndex]?.trim() || '';
+};
+
+// Parse the AI-generated digest text into structured sections
+function parseDigest(text) {
+    const paragraphs = text.split('\n\n').map(p => p.trim()).filter(Boolean);
+    let title = '', intro = '', closing = '';
+    const categories = [];
+
+    for (const para of paragraphs) {
+        if (/^\*\*Weekly Tech News/.test(para)) {
+            title = para.replace(/\*\*/g, '').trim();
+        } else if (/^\d+\.\s+\*\*/.test(para)) {
+            const match = para.match(/^\d+\.\s+\*\*(.+?)\*\*[:\s]+(.+)$/s);
+            if (match) categories.push({ name: match[1].trim(), body: match[2].trim() });
+        } else if (!intro && categories.length === 0) {
+            intro = para;
+        } else {
+            closing = para;
         }
+    }
+    return { title, intro, categories, closing };
+}
 
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_CONFIG.SHEET_ID}/values/${SHEET_CONFIG.RANGE}?key=${SHEET_CONFIG.API_KEY}`;
-        
-        console.log('🔍 Fetching from Google Sheets API...');
-        console.log('📄 Sheet ID:', SHEET_CONFIG.SHEET_ID);
-        console.log('🔑 API Key (first 10 chars):', SHEET_CONFIG.API_KEY ? SHEET_CONFIG.API_KEY.substring(0, 10) + '...' : 'Not found');
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            console.error('❌ API Response failed:', response.status, response.statusText);
-            
-            let errorMessage;
-            switch (response.status) {
-                case 403:
-                    errorMessage = 'API key invalid or Google Sheets API not enabled. Check your API key and enable the Google Sheets API in Google Cloud Console.';
-                    break;
-                case 404:
-                    errorMessage = 'Sheet not found. Make sure the sheet ID is correct and the sheet is shared publicly.';
-                    break;
-                case 400:
-                    errorMessage = 'Bad request. Check the sheet range or API parameters.';
-                    break;
-                default:
-                    errorMessage = `API request failed: ${response.status} - ${errorData.error?.message || 'Unknown error'}`;
-            }
-            
-            throw new Error(errorMessage);
-        }
-
-        const data = await response.json();
-        console.log('✅ API Response received, rows:', data.values?.length || 0);
-
-        if (!data.values || data.values.length === 0) {
-            throw new Error('No data found in the sheet. Make sure your sheet has content.');
-        }
-
-        if (data.values.length < 2) {
-            throw new Error('Sheet only has headers. Make sure there is data in the rows below the headers.');
-        }
-
-        // Find content column
-        const headers = data.values[0];
-        console.log('📋 Headers found:', headers);
-        
-        const contentIndex = headers.findIndex(header => 
-            header && (
-                header.toLowerCase().includes('content') ||
-                header.toLowerCase().includes('summary') ||
-                header.toLowerCase().includes('digest')
-            )
-        );
-
-        if (contentIndex === -1) {
-            throw new Error(`Content column not found. Available columns: ${headers.join(', ')}`);
-        }
-
-        // Get content from first data row
-        const firstDataRow = data.values[1];
-        if (!firstDataRow || !firstDataRow[contentIndex]) {
-            throw new Error(`No content found in the first data row at column "${headers[contentIndex]}"`);
-        }
-
-        const contentText = firstDataRow[contentIndex].trim();
-        
-        if (contentText.length < 20) {
-            throw new Error(`Content too short (${contentText.length} characters). Expected substantial content.`);
-        }
-
-        console.log('✅ Successfully fetched content, length:', contentText.length);
-        return contentText;
-
-    } catch (error) {
-        console.error('🚨 Error fetching Google Sheets content:', error);
-        throw error;
+// Framer Motion variants for staggered card entrance (from motion.dev docs)
+const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: { staggerChildren: 0.08, delayChildren: 0.1 }
     }
 };
 
-/**
- * Setup Instructions Component
- */
-const SetupInstructions = ({ onClose }) => (
-    <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8 bg-blue-900/20 border border-blue-500/30 rounded-lg p-6"
-    >
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">🔧 Google Sheets API Setup</h3>
-        <div className="text-sm text-gray-300 space-y-3">
-            <div>
-                <strong className="text-white">Step 1: Get Google API Key</strong>
-                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-                    <li>Go to <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Google Cloud Console</a></li>
-                    <li>Create a new project or select existing one</li>
-                    <li>Enable the "Google Sheets API"</li>
-                    <li>Go to "Credentials" → "Create Credentials" → "API Key"</li>
-                    <li>Copy your API key</li>
-                </ul>
-            </div>
-            <div>
-                <strong className="text-white">Step 2: Configure API Key</strong>
-                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-                    <li>Create a <code className="bg-gray-800 px-1 rounded">.env</code> file in your project root</li>
-                    <li>Add: <code className="bg-gray-800 px-1 rounded">VITE_GOOGLE_API_KEY=your_api_key_here</code></li>
-                    <li>Restart your development server</li>
-                </ul>
-            </div>
-            <div>
-                <strong className="text-white">Step 3: Make Sheet Accessible</strong>
-                <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
-                    <li>Open your Google Sheet</li>
-                    <li>Click "Share" → "Change to anyone with the link"</li>
-                    <li>Set permissions to "Viewer"</li>
-                </ul>
-            </div>
-        </div>
-        <button
-            onClick={onClose}
-            className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-sm transition-colors"
-        >
-            Got it!
-        </button>
-    </motion.div>
-);
+const itemVariants = {
+    hidden: { opacity: 0, y: 16 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+};
 
-/**
- * Main WeeklyTechNews Component - Production Ready
- */
 const WeeklyTechNews = () => {
-    const [content, setContent] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [digest, setDigest] = useState('');
+    const [generated, setGenerated] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showSetup, setShowSetup] = useState(false);
-    const [lastFetch, setLastFetch] = useState(null);
 
-    const fetchContent = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            
-            const fetchedContent = await fetchGoogleSheetContent();
-            setContent(fetchedContent);
-            setLastFetch(new Date());
-            
-        } catch (err) {
-            console.error('❌ Error fetching content:', err);
-            setError(err.message || 'Unknown error occurred');
-            
-            // Show setup instructions if API key is not configured
-            if (err.message && err.message.includes('API key not found')) {
-                setShowSetup(true);
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Fetch content on component mount
     useEffect(() => {
-        fetchContent();
+        let ignore = false;
+        setLoading(true);
+        setError(null);
+        fetch(`${import.meta.env.BASE_URL}tech-news.json`)
+            .then(r => {
+                if (!r.ok) throw new Error(`Failed to load news (${r.status})`);
+                return r.json();
+            })
+            .then(data => {
+                if (!ignore) {
+                    setDigest(data.digest || '');
+                    setGenerated(data.generated || null);
+                }
+            })
+            .catch(err => { if (!ignore) setError(err.message); })
+            .finally(() => { if (!ignore) setLoading(false); });
+        return () => { ignore = true; };
     }, []);
 
-    // Wrap the entire render in a try-catch for safety
-    try {
-        return (
-            <section id="tech-news" className="py-20 px-6">
-                <div className="max-w-4xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-                            <span className="gradient-text">Weekly Tech News</span>
-                        </h2>
-                    </motion.div>
+    const parsed = digest ? parseDigest(digest) : null;
 
-                    {/* Simple Error Display */}
-                    {error && (
-                        <div className="text-center py-8 mb-8">
-                            <p className="text-red-400 text-sm">Unable to load content at this time.</p>
-                        </div>
-                    )}
-
-                    {/* Content Display */}
-                    {content && !loading && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-gradient-to-r from-gray-900 via-black to-gray-900 border border-gray-500 rounded-xl p-8"
-                        >
-                            <div className="text-gray-300 whitespace-pre-wrap leading-relaxed">
-                                {content}
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {/* Loading State */}
-                    {loading && (
-                        <div className="flex items-center justify-center py-16">
-                            <div className="text-center">
-                                <div className="animate-spin rounded-full h-12 w-12 border-2 border-green-400 border-t-transparent mx-auto"></div>
-                                <p className="text-gray-300 mt-4">Loading...</p>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </section>
-        );
-    } catch (renderError) {
-        console.error('WeeklyTechNews render error:', renderError);
-        return (
-            <section id="tech-news" className="py-20 px-6">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-4xl font-bold mb-6">
+    return (
+        <section id="tech-news" className="py-20 px-6">
+            <div className="max-w-4xl mx-auto">
+                <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-4xl sm:text-5xl font-bold mb-4">
                         <span className="gradient-text">Weekly Tech News</span>
                     </h2>
-                    <p className="text-gray-400 text-sm">Content temporarily unavailable.</p>
-                </div>
-            </section>
-        );
-    }
+                    {generated && (
+                        <p className="text-gray-400 text-sm">
+                            Updated: {new Date(generated).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                        </p>
+                    )}
+                </motion.div>
+
+                {loading && (
+                    <div className="flex items-center justify-center py-16">
+                        <div className="text-center">
+                            <div className="animate-spin rounded-full h-12 w-12 border-2 border-green-400 border-t-transparent mx-auto" />
+                            <p className="text-gray-300 mt-4">Loading...</p>
+                        </div>
+                    </div>
+                )}
+
+                {error && !loading && (
+                    <div className="text-center py-8">
+                        <p className="text-red-400 text-sm">Unable to load content at this time.</p>
+                    </div>
+                )}
+
+                {!loading && !error && parsed && (
+                    <div className="space-y-8">
+                        {/* Intro */}
+                        {parsed.intro && (
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                                className="text-gray-300 text-lg leading-relaxed text-center max-w-2xl mx-auto"
+                            >
+                                {parsed.intro}
+                            </motion.p>
+                        )}
+
+                        {/* Category cards — 2-column grid, staggered entrance */}
+                        <motion.div
+                            className="grid grid-cols-1 md:grid-cols-2 gap-3"
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="show"
+                            viewport={{ once: true }}
+                        >
+                            {parsed.categories.slice(0, 10).map((cat, i) => (
+                                <motion.div
+                                    key={i}
+                                    variants={itemVariants}
+                                    className="flex gap-4 p-5 bg-gradient-to-r from-gray-900 via-black to-gray-900 border border-gray-500 rounded-xl
+                                               hover:border-green-500/40 hover:shadow-lg hover:shadow-green-500/5
+                                               transition-all duration-300 group"
+                                >
+                                    {/* Number badge */}
+                                    <div className="shrink-0 w-7 h-7 rounded-full bg-green-500/20 border border-green-500/40
+                                                    flex items-center justify-center mt-0.5">
+                                        <span className="text-green-400 text-xs font-bold">{i + 1}</span>
+                                    </div>
+                                    {/* Content */}
+                                    <div className="min-w-0">
+                                        <span className="text-green-400 font-semibold text-sm uppercase tracking-wide
+                                                         group-hover:text-green-300 transition-colors">
+                                            {cat.name}
+                                        </span>
+                                        <p className="text-gray-300 text-sm leading-relaxed mt-1">{cat.body}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+
+                        {/* Closing */}
+                        {parsed.closing && (
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                viewport={{ once: true }}
+                                className="text-gray-500 text-sm italic text-center pt-2"
+                            >
+                                {parsed.closing}
+                            </motion.p>
+                        )}
+                    </div>
+                )}
+            </div>
+        </section>
+    );
 };
 
-export default WeeklyTechNews; 
+export default WeeklyTechNews;
