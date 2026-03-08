@@ -1,0 +1,45 @@
+name: Update Weekly Tech News
+
+on:
+  schedule:
+    - cron: '0 15 * * 5'  # Every Friday at 3pm UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install rss-parser
+
+      - name: Generate digest
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/generate-digest.js
+
+      - name: Commit if changed
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git diff --quiet public/tech-news.json || (
+            git add public/tech-news.json &&
+            git commit -m 'chore: update weekly tech news' &&
+            git push
+          )
+
+      - name: Write job summary
+        if: success()
+        run: |
+          echo "## Weekly Tech News Updated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Digest generated from TechCrunch, OpenAI, ML Mastery, and StackOverflow RSS feeds." >> $GITHUB_STEP_SUMMARY
+          echo "**Run time:** $(date -u '+%A, %B %-d %Y at %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
