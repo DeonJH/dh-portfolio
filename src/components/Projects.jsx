@@ -6,16 +6,26 @@ function Projects() {
 
         {
             title: 'Automated Tech News Digest',
-            description: 'Live automation powering the "Weekly Tech News" section of this portfolio! Built with n8n to weekly scrape RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, uses GPT-4o-mini for AI summarization, saves to Google Sheets, and dynamically displays in my portfolio via Google Sheets API integration.',
-            techStack: ['n8n', 'RSS Feeds', 'Google Sheets API', 'Google Cloud Platform', 'AI Automation', 'Content Curation'],
+            description: 'The original automation behind the "Weekly Tech News" section. Built with n8n to weekly scrape RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, used GPT-4o-mini for AI summarization, saved results to Google Sheets, and displayed them via Google Sheets API. This was redesigned to reduce pipeline complexity and eliminate runtime API calls. The weekly digest now loads from a static file instead of making a API request on every visit.',
+            techStack: ['n8n', 'OpenAI API', 'Google Sheets API', 'Google Cloud Platform', 'Workflow Automation'],
             image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
+            badge: { label: 'Legacy', color: 'amber' },
+            github: null,
+            demo: null
+        },
+        {
+            title: 'Automated Tech News Pipeline',
+            description: 'The current version powering the "Weekly Tech News" section. A GitHub Actions workflow runs every Friday, scraping RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, then uses GPT-4o-mini to generate a digest stored as a static JSON file. The React component reads the file directly and displays the news.',
+            techStack: ['GitHub Actions', 'OpenAI API', 'Node.js', 'React', 'CI/CD', 'Automated Deployment'],
+            image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
+            badge: { label: 'Current', color: 'green' },
             github: null,
             demo: null
         },
         {
             title: 'AI-Powered Finance Assistant',
             description: 'AI agent built with LangChain, LangSmith to monitor and improve performance, FastAPI, and Streamlit that helps users analyze and understand their personal spending. Reads spending data from a CSV file, summarizes category totals, and answers natural language questions using GPT-3.5 Turbo. Features real time chat UI, persistent conversation memory, error handling, and clean UX.',
-            techStack: ['LangChain', 'LangGraph', 'LangSmith', 'Streamlit', 'FastAPI', 'OpenAI GPT-3.5 Turbo', 'Pandas', 'Python'],
+            techStack: ['LangChain', 'LangGraph', 'LangSmith', 'FastAPI', 'OpenAI API', 'AI Agents', 'NLP', 'Python'],
             image: 'https://deonjh.github.io/dh-portfolio/assets/finance-assistant.png',
             github: null,
             demo: null
@@ -33,10 +43,10 @@ function Projects() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-4xl sm:text-5xl font-bold mb-6">
-                        <span className="gradient-text">Featured Projects</span>
+                        <span className="gradient-text">Projects</span>
                     </h2>
                     <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Here are some of my recent projects showcasing my expertise in AI, automation, data engineering and software engineering.
+                        Here are my projects showcasing my expertise in AI, automation, data engineering and software engineering.
                     </p>
                 </motion.div>
 
@@ -59,6 +69,15 @@ function Projects() {
                                     className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70" />
+                                {project.badge && (
+                                    <span className={`absolute top-3 right-3 px-2 py-1 text-xs font-semibold rounded-full border ${
+                                        project.badge.color === 'green'
+                                            ? 'bg-green-500/30 text-green-300 border-green-500/50'
+                                            : 'bg-amber-500/30 text-amber-300 border-amber-500/50'
+                                    }`}>
+                                        {project.badge.label}
+                                    </span>
+                                )}
                             </div>
                             
                             <div className="p-6">
