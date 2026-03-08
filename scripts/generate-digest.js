@@ -73,7 +73,7 @@ async function main() {
 
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const prompt = [
-    'You are a tech journalist. Given these recent articles from TechCrunch, OpenAI, ML Mastery, and StackOverflow, write a Weekly Tech News Digest.',
+    'You are a tech journalist. Given these recent articles from TechCrunch, OpenAI, ML Mastery, and StackOverflow, write a Weekly Tech News Digest. Focus on the top and most impactful technology news stories of the week, prioritizing major industry developments over niche topics.',
     '',
     'Format exactly as follows:',
     `**Weekly Tech News Digest \u2013 ${today}**`,
@@ -82,7 +82,7 @@ async function main() {
     '',
     '1. **Category Name**: 2-3 sentence summary of related stories.',
     '2. **Category Name**: 2-3 sentence summary of related stories.',
-    '... (8 to 10 categories total)',
+    '... (exactly 6 categories total)',
     '',
     '[Short closing paragraph, 1-2 sentences]',
     '',
