@@ -18,7 +18,6 @@ function Projects() {
             description: 'The current version powering the "Weekly Tech News" section. A GitHub Actions workflow runs every Friday, scraping RSS feeds from TechCrunch, OpenAI, ML Mastery, and StackOverflow, then uses GPT-4o-mini to generate a digest stored as a static JSON file. The React component reads the file directly and displays the news.',
             techStack: ['GitHub Actions', 'OpenAI API', 'Node.js', 'React', 'CI/CD', 'Automated Deployment'],
             image: 'https://images.pexels.com/photos/18287623/pexels-photo-18287623.jpeg?auto=compress&cs=tinysrgb&w=800',
-            badge: { label: 'Current', color: 'green' },
             github: null,
             demo: null
         },
