@@ -149,7 +149,7 @@ const WeeklyTechNews = () => {
                             whileInView="show"
                             viewport={{ once: true }}
                         >
-                            {parsed.categories.slice(0, 10).map((cat, i) => (
+                            {parsed.categories.slice(0, 6).map((cat, i) => (
                                 <motion.div
                                     key={i}
                                     variants={itemVariants}
