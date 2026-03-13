@@ -1,16 +1,23 @@
+# Workflow for Deploy
+
 name: Deploy
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Build
+        run: | 
+          echo 'Building...'
+
       - name: Deploy
-        run: echo 'Deploying application...'
+        run: |
+          echo 'Deploying...'
