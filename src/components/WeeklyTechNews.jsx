@@ -73,7 +73,7 @@ const WeeklyTechNews = () => {
         let ignore = false;
         setLoading(true);
         setError(null);
-        fetch(`${import.meta.env.BASE_URL}tech-news.json`)
+        fetch(`${import.meta.env.BASE_URL}tech-news.json?v=${Date.now()}`)
             .then(r => {
                 if (!r.ok) throw new Error(`Failed to load news (${r.status})`);
                 return r.json();
