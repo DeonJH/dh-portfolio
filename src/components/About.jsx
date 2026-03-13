@@ -70,12 +70,11 @@ function About() {
                                p-8 rounded-xl shadow-lg backdrop-blur-sm opacity-90"
                 >
                     <p className="text-lg text-gray-300 leading-relaxed">
-                        My journey began in software development, but I quickly became fascinated by the potential 
-                        of AI and automation. While continuing to sharpen my software engineering skills,
-                        I’ve delved deeply into machine learning, data pipelines, building AI agents with LangChain, 
-                        and workflow automation tools like n8n.
-                        I believe the future lies in creating intelligent systems that 
-                        can understand, learn, and act autonomously to solve real world problems.
+                        Software engineering is at the core of everything I do, and my drive to learn new tools
+                        and technologies makes that foundation stronger. I like to stay current with the latest trends in software development, machine learning,
+                        data pipelines, intelligent agents, and workflow automation.
+                        I believe the future lies in combining solid engineering with cutting-edge technologies
+                        to build systems that can understand, learn, and act autonomously to solve real world problems.
                     </p>
                 </motion.div>
             </div>
