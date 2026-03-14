@@ -73,8 +73,8 @@ function About() {
                         Software engineering is at the core of everything I do, and my drive to learn new tools
                         and technologies makes that foundation stronger. I like to stay current with the latest trends in software development, machine learning,
                         data pipelines, intelligent agents, and workflow automation.
-                        I believe the future lies in combining solid engineering with cutting-edge technologies
-                        to build systems that can understand, learn, and act autonomously to solve real world problems.
+                        I believe the future lies in creating intelligent systems with solid engineering foundations
+                        that can understand, learn, and act autonomously to solve real world problems.
                     </p>
                 </motion.div>
             </div>
