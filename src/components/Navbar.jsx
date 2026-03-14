@@ -6,7 +6,7 @@ function Navbar() {
     const [scrolled, setScrolled] = useState(false);
 
     const navItems = [
-        { id: 'hero', label: 'Home' },
+        { id: 'hero', label: 'Intro' },
         { id: 'about', label: 'About' },
         { id: 'projects', label: 'Projects' },
         { id: 'socials', label: 'Connect' }
