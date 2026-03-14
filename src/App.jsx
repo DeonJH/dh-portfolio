@@ -10,14 +10,16 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      <AnimatedBackground />
-      <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <WeeklyTechNews />
-      <Socials />
+    <div className="App flex flex-col flex-1">
+      <div className="max-w-[1280px] mx-auto px-8 w-full flex-1">
+        <AnimatedBackground />
+        <Navbar />
+        <Hero />
+        <About />
+        <Projects />
+        <WeeklyTechNews />
+        <Socials />
+      </div>
       <Footer />
     </div>
   );
