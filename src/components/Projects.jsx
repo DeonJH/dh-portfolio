@@ -1,9 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 
 function Projects() {
     const [expandedCards, setExpandedCards] = useState({});
+    const [isLargeScreen, setIsLargeScreen] = useState(
+        typeof window !== 'undefined' && window.innerWidth >= 1024
+    );
+
+    useEffect(() => {
+        const mql = window.matchMedia('(min-width: 1024px)');
+        const handler = (e) => setIsLargeScreen(e.matches);
+        mql.addEventListener('change', handler);
+        return () => mql.removeEventListener('change', handler);
+    }, []);
 
     const toggleCard = (index) => {
         setExpandedCards(prev => ({ ...prev, [index]: !prev[index] }));
@@ -106,9 +116,10 @@ function Projects() {
                                 {(() => {
                                     const maxVisible = 10;
                                     const isExpanded = expandedCards[index];
-                                    const visibleTech = isExpanded ? project.techStack : project.techStack.slice(0, maxVisible);
+                                    const shouldTruncate = isLargeScreen && !isExpanded;
+                                    const visibleTech = shouldTruncate ? project.techStack.slice(0, maxVisible) : project.techStack;
                                     const hiddenCount = project.techStack.length - maxVisible;
-                                    const needsToggle = project.description.length > 500 || project.techStack.length > maxVisible;
+                                    const needsToggle = isLargeScreen && (project.description.length > 500 || project.techStack.length > maxVisible);
 
                                     return (
                                         <>
