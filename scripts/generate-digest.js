@@ -92,9 +92,9 @@ async function main() {
     titles.join('\n')
   ].join('\n');
 
-  console.log('Generating digest with OpenAI GPT-4o-mini...');
+  console.log('Generating digest with OpenAI GPT-4.1-mini...');
   const response = await post('api.openai.com', '/v1/chat/completions', {
-    model: 'gpt-4o-mini',
+    model: 'gpt-4.1-mini',
     messages: [{ role: 'user', content: prompt }],
     max_tokens: 1200,
     temperature: 0.7
