@@ -1,7 +1,14 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 
 function Projects() {
+    const [expandedCards, setExpandedCards] = useState({});
+
+    const toggleCard = (index) => {
+        setExpandedCards(prev => ({ ...prev, [index]: !prev[index] }));
+    };
+
     const projects = [
 
         {
@@ -31,8 +38,8 @@ function Projects() {
         },
         {
             title: 'Ticket Routing System',
-            description: 'Event-driven microservices system built with Spring Boot 4, Apache Kafka, and Spring AI. A ticket-service accepts support tickets via REST API and publishes events to Kafka. A ticket-routing-service consumes events, enriches tickets using LLM analysis (GPT-4.1-nano) for auto-classification, skill extraction, and sentiment detection, then runs intelligent routing with workload balancing and geolocation. Persists assignments to PostgreSQL with outcome tracking for ML training data export. Includes a machine learning pipeline using LightGBM to learn from routing outcomes and improve future assignments. Uses JDK 25 features including sealed interfaces, Java records, dead letter topics, and idempotent producers.',
-            techStack: ['JDK 25', 'Spring Boot 4', 'Spring AI', 'Apache Kafka', 'PostgreSQL', 'OpenAI API', 'Machine Learning', 'REST API', 'Event-Driven Architecture'],
+            description: 'Event-driven microservices system built with Spring Boot 4, Apache Kafka, and Spring AI. A ticket-service accepts support tickets via REST API and publishes events to Kafka. A ticket-routing-service consumes events, enriches tickets using LLM analysis (GPT-4.1-nano via Spring AI) for auto-classification, skill extraction, and sentiment detection, then intelligently routes tickets using sealed-interface strategy pattern with workload balancing and WGS84 geolocation. Features Kafka Streams for real-time workload analytics with interactive queries, Kafka Connect JDBC Sink for automated reporting, Avro serialization with Schema Registry for schema governance, and a Dead Letter Topic pipeline for fault tolerance. Monitored with Prometheus and Grafana dashboards tracking consumer lag, routing latency, and custom business metrics via Micrometer. Includes ML training data export pipeline for LightGBM-based routing improvement. Runs on a multi-broker KRaft cluster with performance-tuned producers/consumers. Built with JDK 25 features including sealed interfaces, records, pattern matching, and virtual threads.',
+            techStack: ['JDK 25', 'Spring Boot 4', 'Spring AI', 'Apache Kafka', 'Kafka Streams', 'Kafka Connect', 'Schema Registry', 'Avro', 'PostgreSQL', 'OpenAI API', 'Prometheus', 'Grafana', 'Micrometer', 'Docker', 'Machine Learning', 'REST API', 'Event-Driven Architecture'],
             image: 'https://images.pexels.com/photos/18337612/pexels-photo-18337612.jpeg?auto=compress&cs=tinysrgb&w=800',
             badge: { label: 'In Progress', color: 'amber' },
             github: null,
@@ -92,20 +99,47 @@ function Projects() {
                                 <h3 className="text-2xl font-bold mb-3">
                                     <span className="gradient-text">{project.title}</span>
                                 </h3>
-                                <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
-                                
-                                <div className="flex flex-wrap gap-2 mb-6 justify-center">
-                                    {project.techStack.map((tech, techIndex) => (
-                                        <span
-                                            key={techIndex}
-                                            className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm border border-green-500/30"
-                                        >
-                                            {tech}
-                                        </span>
-                                    ))}
-                                </div>
-                                
-                                <div className="flex gap-4">
+                                <p className={`text-gray-300 leading-relaxed ${!expandedCards[index] ? 'line-clamp-[10]' : ''}`}>
+                                    {project.description}
+                                </p>
+
+                                {(() => {
+                                    const maxVisible = 10;
+                                    const isExpanded = expandedCards[index];
+                                    const visibleTech = isExpanded ? project.techStack : project.techStack.slice(0, maxVisible);
+                                    const hiddenCount = project.techStack.length - maxVisible;
+                                    const needsToggle = project.description.length > 500 || project.techStack.length > maxVisible;
+
+                                    return (
+                                        <>
+                                            <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                                                {visibleTech.map((tech, techIndex) => (
+                                                    <span
+                                                        key={techIndex}
+                                                        className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm border border-green-500/30"
+                                                    >
+                                                        {tech}
+                                                    </span>
+                                                ))}
+                                                {!isExpanded && hiddenCount > 0 && (
+                                                    <span className="px-3 py-1 bg-gray-500/20 text-gray-400 rounded-full text-sm border border-gray-500/30">
+                                                        +{hiddenCount} more
+                                                    </span>
+                                                )}
+                                            </div>
+                                            {needsToggle && (
+                                                <button
+                                                    onClick={() => toggleCard(index)}
+                                                    className="text-green-400 hover:text-green-300 text-sm mt-3 transition-colors"
+                                                >
+                                                    {isExpanded ? 'See less \u25b4' : 'See more \u25b8'}
+                                                </button>
+                                            )}
+                                        </>
+                                    );
+                                })()}
+
+                                <div className="flex gap-4 mt-4">
                                     {project.github && project.github !== '#' && (
                                         <a
                                             href={project.github}
