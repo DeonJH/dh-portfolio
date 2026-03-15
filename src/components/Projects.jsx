@@ -31,8 +31,8 @@ function Projects() {
         },
         {
             title: 'Ticket Routing System',
-            description: 'Event driven microservices system built with Spring Boot 4 and Apache Kafka. A ticket-service accepts support tickets via REST API and publishes events to Kafka. A ticket-routing-service consumes events, runs skill-based routing with workload balancing and geolocation, persists assignments to PostgreSQL, and publishes to a downstream topic. Uses JDK 25 features including sealed interfaces, Java records, dead letter topics, idempotent producers, and exponential backoff retry.',
-            techStack: ['JDK 25', 'Spring Boot 4', 'Apache Kafka', 'PostgreSQL', 'REST API', 'Event-Driven Architecture'],
+            description: 'Event-driven microservices system built with Spring Boot 4, Apache Kafka, and Spring AI. A ticket-service accepts support tickets via REST API and publishes events to Kafka. A ticket-routing-service consumes events, enriches tickets using LLM analysis (GPT-4.1-nano) for auto-classification, skill extraction, and sentiment detection, then runs intelligent routing with workload balancing and geolocation. Persists assignments to PostgreSQL with outcome tracking for ML training data export. Includes a machine learning pipeline using LightGBM to learn from routing outcomes and improve future assignments. Uses JDK 25 features including sealed interfaces, Java records, dead letter topics, and idempotent producers.',
+            techStack: ['JDK 25', 'Spring Boot 4', 'Spring AI', 'Apache Kafka', 'PostgreSQL', 'OpenAI API', 'Machine Learning', 'REST API', 'Event-Driven Architecture'],
             image: 'https://images.pexels.com/photos/18337612/pexels-photo-18337612.jpeg?auto=compress&cs=tinysrgb&w=800',
             badge: { label: 'In Progress', color: 'amber' },
             github: null,
