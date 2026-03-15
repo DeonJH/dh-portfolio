@@ -132,7 +132,7 @@ function Projects() {
                                                         {tech}
                                                     </span>
                                                 ))}
-                                                {!isExpanded && hiddenCount > 0 && (
+                                                {shouldTruncate && hiddenCount > 0 && (
                                                     <span className="px-3 py-1 bg-gray-500/20 text-gray-400 rounded-full text-sm border border-gray-500/30">
                                                         +{hiddenCount} more
                                                     </span>
