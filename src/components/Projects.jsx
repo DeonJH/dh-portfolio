@@ -99,7 +99,7 @@ function Projects() {
                                 <h3 className="text-2xl font-bold mb-3">
                                     <span className="gradient-text">{project.title}</span>
                                 </h3>
-                                <p className={`text-gray-300 leading-relaxed ${!expandedCards[index] ? 'line-clamp-[10]' : ''}`}>
+                                <p className={`text-gray-300 leading-relaxed ${!expandedCards[index] ? 'lg:line-clamp-[10]' : ''}`}>
                                     {project.description}
                                 </p>
 
