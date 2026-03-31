@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+
+const FaIcon = (icon) => ({ size, className }) => (
+  <FontAwesomeIcon icon={icon} className={className} style={{ fontSize: size }} />
+);
 
 const SocialsBar = () => {
   const [falling, setFalling] = useState({
@@ -21,14 +27,14 @@ const SocialsBar = () => {
   const socialLinks = [
     { 
       name: "github", 
-      Icon: Github, 
+      Icon: FaIcon(faGithub),
       color: "text-white", 
       link: "https://github.com/DeonJH", 
       label: "Github" 
     },
     { 
       name: "linkedin", 
-      Icon: Linkedin, 
+      Icon: FaIcon(faLinkedin), 
       color: "text-blue-500", 
       link: "https://linkedin.com/in/deon-hill", 
       label: "LinkedIn" 

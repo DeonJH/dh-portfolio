@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Calendar, Users, Zap, CheckCircle } from 'lucide-react';
+import { Mail, ExternalLink, Calendar, Users, Zap, CheckCircle } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+
+const FaIcon = (icon) => ({ size, className }) => (
+    <FontAwesomeIcon icon={icon} className={className} style={{ fontSize: size }} />
+);
 
 const Socials = () => {
     const [calendlyLoading, setCalendlyLoading] = useState(false);
@@ -9,7 +15,7 @@ const Socials = () => {
     const socialLinks = [
         {
             name: 'LinkedIn',
-            icon: Linkedin,
+            icon: FaIcon(faLinkedin),
             url: 'https://linkedin.com/in/deon-hill',
             color: 'from-blue-600 to-blue-700',
             hoverColor: 'hover:from-blue-500 hover:to-blue-600',
@@ -17,7 +23,7 @@ const Socials = () => {
         },
         {
             name: 'GitHub',
-            icon: Github,
+            icon: FaIcon(faGithub),
             url: 'https://github.com/DeonJH',
             color: 'from-gray-700 to-gray-800',
             hoverColor: 'hover:from-gray-600 hover:to-gray-700',

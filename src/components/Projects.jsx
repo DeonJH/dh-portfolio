@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 function Projects() {
     const [expandedCards, setExpandedCards] = useState({});
@@ -158,7 +160,7 @@ function Projects() {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
-                                            <Github size={20} />
+                                            <FontAwesomeIcon icon={faGithub} className="text-xl" />
                                             <span>Code</span>
                                         </a>
                                     )}

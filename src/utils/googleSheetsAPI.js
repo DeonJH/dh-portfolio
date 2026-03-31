@@ -140,11 +140,6 @@ const fetchWithTimeout = async (url, options = {}) => {
 const fetchFromGoogleSheets = async (apiKey, sheetId, range, attempt = 1) => {
     const url = `${API_CONFIG.BASE_URL}/${sheetId}/values/${range}?key=${apiKey}`;
     
-    console.log(`🔍 Fetching from Google Sheets API (attempt ${attempt}/${API_CONFIG.MAX_RETRIES})`);
-    console.log('📄 Sheet ID:', sheetId);
-    console.log('🔑 API Key (first 10 chars):', apiKey.substring(0, 10) + '...');
-    console.log('📊 Range:', range);
-    console.log('🌐 URL:', url);
 
     try {
         const response = await fetchWithTimeout(url);
