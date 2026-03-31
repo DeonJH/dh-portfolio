@@ -34,7 +34,20 @@ function post(host, pathname, body, headers) {
       res => {
         let data = '';
         res.on('data', chunk => data += chunk);
-        res.on('end', () => resolve(JSON.parse(data)));
+        res.on('end', () => {
+          let parsed;
+          try {
+            parsed = JSON.parse(data);
+          } catch {
+            reject(new Error(`HTTP ${res.statusCode}: Non-JSON response: ${data.slice(0, 200)}`));
+            return;
+          }
+          if (res.statusCode >= 400) {
+            reject(new Error(`OpenAI API error (HTTP ${res.statusCode}): ${parsed.error?.message || data.slice(0, 200)}`));
+            return;
+          }
+          resolve(parsed);
+        });
         res.on('error', reject);
       }
     );
@@ -102,6 +115,10 @@ async function main() {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
   });
+
+  if (response.error) {
+    throw new Error(`OpenAI API error: ${response.error.message || JSON.stringify(response.error)}`);
+  }
 
   const digest = response.choices?.[0]?.message?.content?.trim();
   if (!digest) throw new Error('No digest returned from OpenAI: ' + JSON.stringify(response));
