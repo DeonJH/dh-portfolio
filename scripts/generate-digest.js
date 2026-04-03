@@ -129,4 +129,4 @@ async function main() {
   console.log('Done. Digest written to public/tech-news.json');
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().then(() => process.exit(0)).catch(err => { console.error(err); process.exit(1); });
