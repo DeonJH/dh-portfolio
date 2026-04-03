@@ -40,7 +40,7 @@ function parseDigest(text) {
         } else if (/^\d+\.\s+/.test(para)) {
             // Match both "1. **Name**: text" and "1. Name: text"
             const match = para.match(/^\d+\.\s+\*\*(.+?)\*\*[:\s]+(.+)$/s)
-                       || para.match(/^\d+\.\s+(.+?):\s+(.+)$/s);
+                       || para.match(/^\d+\.\s+(.+?)[:\u2013\u2014]\s*(.+)$/s);
             if (match) categories.push({ name: match[1].trim(), body: match[2].trim() });
         } else if (!intro && categories.length === 0) {
             intro = para;
