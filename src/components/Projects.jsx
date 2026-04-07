@@ -44,7 +44,7 @@ function Projects() {
             title: 'AI Powered Finance Assistant',
             description: 'AI agent built with LangChain, LangSmith to monitor and improve performance, FastAPI, and Streamlit that helps users analyze and understand their personal spending. Reads spending data from a CSV file, summarizes category totals, and answers natural language questions using GPT-3.5 Turbo. Features real time chat UI, persistent conversation memory, error handling, and clean UX.',
             techStack: ['LangChain', 'LangGraph', 'LangSmith', 'FastAPI', 'OpenAI API', 'AI Agents', 'NLP', 'Python'],
-            image: 'https://deonjh.github.io/dh-portfolio/assets/finance-assistant.png',
+            image: '/assets/finance-assistant.png',
             github: null,
             demo: null
         },
