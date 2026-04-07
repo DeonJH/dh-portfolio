@@ -37,6 +37,17 @@ function Navbar() {
                 }
             });
             
+            // Treat tech-news as part of projects for nav highlighting
+            const techNews = document.getElementById('tech-news');
+            if (techNews) {
+                const sectionCenter = techNews.offsetTop + techNews.offsetHeight / 2;
+                const distance = Math.abs(scrollPosition - sectionCenter);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    currentSection = 'projects';
+                }
+            }
+
             // Special handling for the last section (Connect/Socials)
             const lastSection = sections[sections.length - 1];
             if (lastSection) {
