@@ -71,6 +71,7 @@ function Navbar() {
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
         if (element) {
+            setActiveSection(sectionId);
             element.scrollIntoView({ behavior: 'smooth' });
         }
     };
