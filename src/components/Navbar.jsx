@@ -86,14 +86,14 @@ function Navbar() {
                     : 'bg-gradient-to-r from-gray-900 via-black to-gray-900 backdrop-blur-sm'
             }`}
         >
-            <div className="max-w-6xl mx-auto px-6 py-4">
+            <div className="max-w-6xl mx-auto px-3 sm:px-6 py-4">
                 <div className="flex justify-center items-center">
-                    <ul className="flex space-x-1 bg-gray-800/50 rounded-full p-2 backdrop-blur-sm border border-gray-600/30">
+                    <ul className="flex space-x-0.5 sm:space-x-1 bg-gray-800/50 rounded-full p-1 sm:p-2 backdrop-blur-sm border border-gray-600/30">
                         {navItems.map((item) => (
                             <li key={item.id}>
                                 <button
                                     onClick={() => scrollToSection(item.id)}
-                                    className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                                    className={`relative px-3 sm:px-6 py-2.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
                                         activeSection === item.id
                                             ? 'text-white'
                                             : 'text-gray-300 hover:text-white'

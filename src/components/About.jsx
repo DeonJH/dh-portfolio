@@ -26,7 +26,7 @@ function About() {
     ];
 
     return (
-        <section id="about" className="py-20 px-6">
+        <section id="about" className="py-12 md:py-20 px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
@@ -45,13 +45,13 @@ function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     viewport={{ once: true }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-16"
                 >
                     {features.map((feature, index) => (
                         <div
                             key={index}
                             className="bg-gradient-to-r from-gray-900 via-black to-gray-900 border border-gray-500 
-                                       p-6 rounded-xl text-center hover:scale-105 transition-all duration-300 
+                                       p-4 md:p-6 rounded-xl text-center hover:scale-105 transition-all duration-300 
                                        shadow-lg hover:shadow-2xl hover:border-green-500 backdrop-blur-sm opacity-90"
                         >
                             <feature.icon className="mx-auto mb-4 text-green-400" size={48} />
@@ -67,9 +67,9 @@ function About() {
                     transition={{ duration: 0.8, delay: 0.4 }}
                     viewport={{ once: true }}
                     className="bg-gradient-to-r from-gray-900 via-black to-gray-900 border border-gray-500 
-                               p-8 rounded-xl shadow-lg backdrop-blur-sm opacity-90"
+                               p-4 md:p-8 rounded-xl shadow-lg backdrop-blur-sm opacity-90"
                 >
-                    <p className="text-lg text-gray-300 leading-relaxed">
+                    <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                         Software engineering is at the core of everything I do, and my drive to learn new tools
                         and technologies makes that foundation stronger. I like to stay current with the latest trends in software development, machine learning,
                         data pipelines, intelligent agents, and workflow automation.

@@ -103,7 +103,7 @@ const WeeklyTechNews = () => {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl sm:text-5xl font-bold mb-4">
+                    <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4">
                         <span className="gradient-text">Weekly Tech News</span>
                     </h2>
                     {generated && (

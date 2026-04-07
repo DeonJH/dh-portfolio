@@ -42,8 +42,9 @@ const AnimatedBackground = () => {
       { icon: faCog, color: "#6B7280", name: "Automation" },
       { icon: faBolt, color: "#FBBF24", name: "Performance" },
     ];
-    const particleCount = 16;
-    
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const particleCount = isMobile ? 8 : 16;
+
          return Array.from({ length: particleCount }, (_, i) => {
        const techIcon = techIcons[Math.floor(Math.random() * techIcons.length)];
        return {
@@ -90,7 +91,7 @@ const AnimatedBackground = () => {
       ctx.strokeStyle = "rgba(34, 197, 94, 0.03)";
       ctx.lineWidth = 1;
       
-      const gridSize = 100;
+      const gridSize = canvas.width < 768 ? 200 : 100;
       for (let x = 0; x < canvas.width; x += gridSize) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
@@ -106,8 +107,9 @@ const AnimatedBackground = () => {
       }
 
       // Draw floating geometric shapes
+      const shapeCount = canvas.width < 768 ? 3 : 6;
       ctx.fillStyle = "rgba(34, 197, 94, 0.02)";
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < shapeCount; i++) {
         const x = (Math.sin(Date.now() * 0.0005 + i) * 150) + (canvas.width / 2);
         const y = (Math.cos(Date.now() * 0.0003 + i) * 100) + (canvas.height / 2);
         const size = 20 + Math.sin(Date.now() * 0.001 + i) * 8;

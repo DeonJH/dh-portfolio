@@ -60,7 +60,7 @@ function Projects() {
     ];
 
     return (
-        <section id="projects" className="py-20 px-6">
+        <section id="projects" className="py-12 md:py-20 px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
@@ -69,7 +69,7 @@ function Projects() {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+                    <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6">
                         <span className="gradient-text">Projects</span>
                     </h2>
                     <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -108,7 +108,7 @@ function Projects() {
                                 )}
                             </div>
                             
-                            <div className="p-6">
+                            <div className="p-4 sm:p-6">
                                 <h3 className="text-2xl font-bold mb-3">
                                     <span className="gradient-text">{project.title}</span>
                                 </h3>

@@ -13,7 +13,7 @@ function App() {
   return (
     <ErrorBoundary>
       <div className="App flex flex-col flex-1">
-        <div className="max-w-[1280px] mx-auto px-8 w-full flex-1">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 w-full flex-1">
           <AnimatedBackground />
           <Navbar />
           <Hero />
