@@ -80,7 +80,7 @@ function Projects() {
                 <div className={`grid gap-8 ${projects.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 lg:grid-cols-2'}`}>
                     {projects.map((project, index) => (
                         <motion.div
-                            key={index}
+                            key={project.title}
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: index * 0.1 }}
@@ -93,6 +93,7 @@ function Projects() {
                                 <img
                                     src={project.image}
                                     alt={project.title}
+                                    loading="lazy"
                                     className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70" />
@@ -126,9 +127,9 @@ function Projects() {
                                     return (
                                         <>
                                             <div className="flex flex-wrap gap-2 mt-4 justify-center">
-                                                {visibleTech.map((tech, techIndex) => (
+                                                {visibleTech.map((tech) => (
                                                     <span
-                                                        key={techIndex}
+                                                        key={tech}
                                                         className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm border border-green-500/30"
                                                     >
                                                         {tech}

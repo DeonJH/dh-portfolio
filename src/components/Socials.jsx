@@ -44,56 +44,50 @@ const Socials = () => {
         const script = document.createElement('script');
         script.src = 'https://assets.calendly.com/assets/external/widget.js';
         script.async = true;
-        script.onload = () => {
-            console.log('Calendly script loaded successfully');
-        };
-        script.onerror = () => {
-            console.error('Failed to load Calendly script');
-        };
         document.body.appendChild(script);
 
         return () => {
-            // Only remove if it exists
-            if (document.body.contains(script)) {
-                document.body.removeChild(script);
+            if (script.parentNode) {
+                script.parentNode.removeChild(script);
             }
         };
     }, []);
 
     // Initialize Calendly widget when it becomes visible
     useEffect(() => {
-        if (showCalendly) {
-            setCalendlyLoading(true);
-            
-            // Wait for Calendly script to load if it hasn't already
-            const initializeWidget = () => {
-                if (window.Calendly) {
-                    const widgetElement = document.querySelector('#calendly-inline-widget-socials');
-                    if (widgetElement) {
-                        // Clear any existing content
-                        widgetElement.innerHTML = '';
-                        
-                        // Initialize the widget
-                        window.Calendly.initInlineWidget({
-                            url: 'https://calendly.com/hill-d',
-                            parentElement: widgetElement,
-                            prefill: {},
-                            utm: {}
-                        });
-                        
-                        setCalendlyLoading(false);
-                    }
-                } else {
-                    // If Calendly hasn't loaded yet, try again after a short delay
-                    setTimeout(initializeWidget, 100);
-                }
-            };
-            
-            // Small delay to ensure DOM is ready
-            setTimeout(initializeWidget, 50);
-        } else {
+        if (!showCalendly) {
             setCalendlyLoading(false);
+            return;
         }
+
+        setCalendlyLoading(true);
+        let retries = 0;
+        let timeoutId;
+
+        const initializeWidget = () => {
+            if (window.Calendly) {
+                const widgetElement = document.querySelector('#calendly-inline-widget-socials');
+                if (widgetElement) {
+                    widgetElement.innerHTML = '';
+                    window.Calendly.initInlineWidget({
+                        url: 'https://calendly.com/hill-d',
+                        parentElement: widgetElement,
+                        prefill: {},
+                        utm: {}
+                    });
+                    setCalendlyLoading(false);
+                }
+            } else if (retries < 10) {
+                retries++;
+                timeoutId = setTimeout(initializeWidget, 100);
+            } else {
+                setCalendlyLoading(false);
+            }
+        };
+
+        timeoutId = setTimeout(initializeWidget, 50);
+
+        return () => clearTimeout(timeoutId);
     }, [showCalendly]);
 
     return (

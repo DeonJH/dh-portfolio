@@ -13,59 +13,58 @@ function Navbar() {
     ];
 
     useEffect(() => {
+        let ticking = false;
+
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-            
-            // Update active section based on scroll position
-            const sections = navItems.map(item => document.getElementById(item.id));
-            const scrollPosition = window.scrollY + window.innerHeight / 2; // Use middle of viewport
-            
-            // Find the section that's currently most visible
-            let currentSection = 'hero'; // default
-            let minDistance = Infinity;
-            
-            sections.forEach((section, index) => {
-                if (section) {
-                    const sectionTop = section.offsetTop;
-                    const sectionCenter = sectionTop + section.offsetHeight / 2;
+            if (ticking) return;
+            ticking = true;
+
+            requestAnimationFrame(() => {
+                setScrolled(window.scrollY > 50);
+
+                const sections = navItems.map(item => document.getElementById(item.id));
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+                let currentSection = 'hero';
+                let minDistance = Infinity;
+
+                sections.forEach((section, index) => {
+                    if (section) {
+                        const sectionCenter = section.offsetTop + section.offsetHeight / 2;
+                        const distance = Math.abs(scrollPosition - sectionCenter);
+
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            currentSection = navItems[index].id;
+                        }
+                    }
+                });
+
+                const techNews = document.getElementById('tech-news');
+                if (techNews) {
+                    const sectionCenter = techNews.offsetTop + techNews.offsetHeight / 2;
                     const distance = Math.abs(scrollPosition - sectionCenter);
-                    
                     if (distance < minDistance) {
                         minDistance = distance;
-                        currentSection = navItems[index].id;
+                        currentSection = 'projects';
                     }
                 }
-            });
-            
-            // Treat tech-news as part of projects for nav highlighting
-            const techNews = document.getElementById('tech-news');
-            if (techNews) {
-                const sectionCenter = techNews.offsetTop + techNews.offsetHeight / 2;
-                const distance = Math.abs(scrollPosition - sectionCenter);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    currentSection = 'projects';
-                }
-            }
 
-            // Special handling for the last section (Connect/Socials)
-            const lastSection = sections[sections.length - 1];
-            if (lastSection) {
-                const documentHeight = document.documentElement.scrollHeight;
-                const windowHeight = window.innerHeight;
-                const scrollTop = window.scrollY;
-                
-                // If we're near the bottom of the page, activate the last section
-                if (scrollTop + windowHeight >= documentHeight - 100) {
-                    currentSection = navItems[sections.length - 1].id;
+                const lastSection = sections[sections.length - 1];
+                if (lastSection) {
+                    const documentHeight = document.documentElement.scrollHeight;
+                    if (window.scrollY + window.innerHeight >= documentHeight - 100) {
+                        currentSection = navItems[sections.length - 1].id;
+                    }
                 }
-            }
-            
-            setActiveSection(currentSection);
+
+                setActiveSection(currentSection);
+                ticking = false;
+            });
         };
 
-        window.addEventListener('scroll', handleScroll);
-        handleScroll(); // Call once on mount to set initial state
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 

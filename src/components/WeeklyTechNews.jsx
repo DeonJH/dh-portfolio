@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-// Legacy: Google Sheets v1 configuration
-const SHEET_CONFIG = {
-    SHEET_ID: '1UB5XZJO4SRoHtv7lgCRVuiun5-_aTLggozxEw3bvI1Q',
-    API_KEY: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GOOGLE_API_KEY) ||
-             (typeof process !== 'undefined' && process.env?.REACT_APP_GOOGLE_API_KEY) ||
-             null,
-    RANGE: 'Sheet1!A:Z'
-};
-
-/**
- * Legacy: Google Sheets v1 data source (n8n + RSS pipeline, no longer active)
+/*
+ * V1 Tech Digest — Google Sheets data source (n8n + RSS pipeline).
+ * Replaced by static JSON approach in V2. Kept for reference.
+ * See also: src/hooks/useGoogleSheets.js, src/utils/googleSheetsAPI.js, src/utils/apiCache.js
+ *
+ * const SHEET_CONFIG = {
+ *     SHEET_ID: '<google-sheet-id>',
+ *     API_KEY: import.meta.env?.VITE_GOOGLE_API_KEY || null,
+ *     RANGE: 'Sheet1!A:Z'
+ * };
+ *
+ * const fetchGoogleSheetContent = async () => {
+ *     if (!SHEET_CONFIG.API_KEY) throw new Error('Google API key not configured.');
+ *     const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_CONFIG.SHEET_ID}/values/${SHEET_CONFIG.RANGE}?key=${SHEET_CONFIG.API_KEY}`;
+ *     const response = await fetch(url);
+ *     if (!response.ok) throw new Error(`Sheets API error: ${response.status}`);
+ *     const data = await response.json();
+ *     if (!data.values || data.values.length < 2) throw new Error('No data in sheet.');
+ *     const headers = data.values[0];
+ *     const contentIndex = headers.findIndex(h =>
+ *         h && (h.toLowerCase().includes('content') || h.toLowerCase().includes('summary') || h.toLowerCase().includes('digest'))
+ *     );
+ *     if (contentIndex === -1) throw new Error('Content column not found.');
+ *     return data.values[1][contentIndex]?.trim() || '';
+ * };
  */
-const fetchGoogleSheetContent = async () => {
-    if (!SHEET_CONFIG.API_KEY) throw new Error('Google API key not configured.');
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_CONFIG.SHEET_ID}/values/${SHEET_CONFIG.RANGE}?key=${SHEET_CONFIG.API_KEY}`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Sheets API error: ${response.status}`);
-    const data = await response.json();
-    if (!data.values || data.values.length < 2) throw new Error('No data in sheet.');
-    const headers = data.values[0];
-    const contentIndex = headers.findIndex(h =>
-        h && (h.toLowerCase().includes('content') || h.toLowerCase().includes('summary') || h.toLowerCase().includes('digest'))
-    );
-    if (contentIndex === -1) throw new Error('Content column not found.');
-    return data.values[1][contentIndex]?.trim() || '';
-};
 
 // Parse the AI-generated digest text into structured sections
 function parseDigest(text) {
@@ -153,7 +153,7 @@ const WeeklyTechNews = () => {
                         >
                             {parsed.categories.slice(0, 6).map((cat, i) => (
                                 <motion.div
-                                    key={i}
+                                    key={cat.name}
                                     variants={itemVariants}
                                     className="flex gap-4 p-5 bg-gradient-to-r from-gray-900 via-black to-gray-900 border border-gray-500 rounded-xl
                                                hover:border-green-500/40 hover:shadow-lg hover:shadow-green-500/5

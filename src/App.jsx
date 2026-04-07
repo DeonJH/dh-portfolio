@@ -1,4 +1,5 @@
 import './App.css'
+import ErrorBoundary from './components/ErrorBoundary';
 import AnimatedBackground from './components/AnimatedBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -10,18 +11,20 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App flex flex-col flex-1">
-      <div className="max-w-[1280px] mx-auto px-8 w-full flex-1">
-        <AnimatedBackground />
-        <Navbar />
-        <Hero />
-        <About />
-        <Projects />
-        <WeeklyTechNews />
-        <Socials />
+    <ErrorBoundary>
+      <div className="App flex flex-col flex-1">
+        <div className="max-w-[1280px] mx-auto px-8 w-full flex-1">
+          <AnimatedBackground />
+          <Navbar />
+          <Hero />
+          <About />
+          <Projects />
+          <WeeklyTechNews />
+          <Socials />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </ErrorBoundary>
   );
 }
 
