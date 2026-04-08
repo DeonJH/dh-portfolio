@@ -59,8 +59,10 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600
                            rounded-full blur-2xl opacity-30 animate-pulse"></div>
             <img
-              src="assets/PPDH.jpeg"
+              src="assets/PPDH-768.webp"
               alt="Deon Hill - Software Engineer"
+              loading="eager"
+              style={{ imageRendering: 'high-quality' }}
               className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96
                         rounded-full object-cover border-4 border-gray-500 shadow-2xl max-w-full max-h-[50vh]"
             />
