@@ -5,6 +5,10 @@
   background-color: #020202;
 }
 
+section[id] {
+  scroll-margin-top: 60px;
+}
+
 .gradient-text {
   background: linear-gradient(135deg, #10b981, #059669);
   -webkit-background-clip: text;

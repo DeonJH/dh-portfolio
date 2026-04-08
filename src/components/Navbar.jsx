@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function Navbar() {
     const [activeSection, setActiveSection] = useState('hero');
     const [scrolled, setScrolled] = useState(false);
+    const isClickScrolling = useRef(false);
 
     const navItems = [
         { id: 'hero', label: 'Intro' },
@@ -12,67 +13,63 @@ function Navbar() {
         { id: 'socials', label: 'Connect' }
     ];
 
+    // IntersectionObserver for active section detection
     useEffect(() => {
-        let ticking = false;
+        const sectionIds = ['hero', 'about', 'projects', 'tech-news', 'socials'];
+        const sections = sectionIds
+            .map(id => document.getElementById(id))
+            .filter(Boolean);
 
-        const handleScroll = () => {
-            if (ticking) return;
-            ticking = true;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (isClickScrolling.current) return;
 
-            requestAnimationFrame(() => {
-                setScrolled(window.scrollY > 50);
-
-                const sections = navItems.map(item => document.getElementById(item.id));
-                const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-                let currentSection = 'hero';
-                let minDistance = Infinity;
-
-                sections.forEach((section, index) => {
-                    if (section) {
-                        const sectionCenter = section.offsetTop + section.offsetHeight / 2;
-                        const distance = Math.abs(scrollPosition - sectionCenter);
-
-                        if (distance < minDistance) {
-                            minDistance = distance;
-                            currentSection = navItems[index].id;
-                        }
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        setActiveSection(id === 'tech-news' ? 'projects' : id);
                     }
                 });
+            },
+            { rootMargin: '-20% 0px -80% 0px', threshold: 0 }
+        );
 
-                const techNews = document.getElementById('tech-news');
-                if (techNews) {
-                    const sectionCenter = techNews.offsetTop + techNews.offsetHeight / 2;
-                    const distance = Math.abs(scrollPosition - sectionCenter);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        currentSection = 'projects';
-                    }
-                }
+        sections.forEach((section) => observer.observe(section));
+        return () => observer.disconnect();
+    }, []);
 
-                const lastSection = sections[sections.length - 1];
-                if (lastSection) {
-                    const documentHeight = document.documentElement.scrollHeight;
-                    if (window.scrollY + window.innerHeight >= documentHeight - 100) {
-                        currentSection = navItems[sections.length - 1].id;
-                    }
-                }
+    // Lightweight scroll listener for navbar background + bottom-of-page edge case
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
 
-                setActiveSection(currentSection);
-                ticking = false;
-            });
+            if (isClickScrolling.current) return;
+
+            const documentHeight = document.documentElement.scrollHeight;
+            if (window.scrollY + window.innerHeight >= documentHeight - 50) {
+                setActiveSection('socials');
+            }
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll();
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
         if (element) {
+            isClickScrolling.current = true;
             setActiveSection(sectionId);
             element.scrollIntoView({ behavior: 'smooth' });
+
+            const fallback = setTimeout(() => {
+                isClickScrolling.current = false;
+            }, 1000);
+
+            window.addEventListener('scrollend', () => {
+                clearTimeout(fallback);
+                isClickScrolling.current = false;
+            }, { once: true });
         }
     };
 
