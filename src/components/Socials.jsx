@@ -32,7 +32,7 @@ const Socials = () => {
         {
             name: 'Email',
             icon: Mail,
-            url: 'mailto:Deonjh12@gmail.com',
+            url: 'mailto:Contact@deonhill.dev',
             color: 'from-green-600 to-emerald-700',
             hoverColor: 'hover:from-green-500 hover:to-emerald-600',
             description: 'Get in touch directly'

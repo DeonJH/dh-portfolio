@@ -43,7 +43,7 @@ const SocialsBar = () => {
       name: "mail", 
       Icon: Mail, 
       color: "text-red-500", 
-      link: "mailto:Deonjh12@gmail.com", 
+      link: "mailto:Contact@deonhill.dev", 
       label: "Email" 
     },
   ];
