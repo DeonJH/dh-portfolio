@@ -6,22 +6,22 @@ function About() {
         {
             icon: Code,
             title: 'Software Engineering',
-            description: 'Strong foundation in Java, Python, and TypeScript with enterprise-level experience'
+            description: 'Java, Python, and TypeScript across enterprise systems and production workloads'
         },
         {
             icon: Database,
             title: 'Data Engineering',
-            description: 'Expertise in Apache Kafka, PostgreSQL, and building scalable data pipelines'
+            description: 'Kafka, PostgreSQL, and pipelines that move data reliably at production scale'
         },
         {
             icon: Bot,
             title: 'AI Integration',
-            description: 'Building intelligent agents using OpenAI, LangChain, and modern AI frameworks'
+            description: 'Agents and LLM workflows integrated into production systems with OpenAI and LangChain'
         },
         {
             icon: Workflow,
             title: 'Automation',
-            description: 'Creating efficient workflows with n8n, Airflow, and custom automation solutions'
+            description: 'n8n, Airflow, and custom orchestration for systems teams depend on daily'
         }
     ];
 
@@ -70,11 +70,11 @@ function About() {
                                p-4 md:p-8 rounded-xl shadow-lg backdrop-blur-sm opacity-90"
                 >
                     <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
-                        Software engineering is at the core of everything I do, and my drive to learn new tools
-                        and technologies makes that foundation stronger. I like to stay current with the latest trends in software development, machine learning,
-                        data pipelines, intelligent agents, and workflow automation.
-                        I believe the future lies in creating intelligent systems with solid engineering foundations
-                        that can understand, learn, and act autonomously to solve real world problems.
+                        My focus is software that does what it's supposed to do, then keeps doing it.
+                        The stack shifts from project to project (backend services, data pipelines, AI agents, frontend apps),
+                        but the discipline doesn't. Across all of it, the engineering decisions matter more than
+                        any single framework. The standard is software that holds up under heavy load, stays
+                        maintainable, and follows best practices.
                     </p>
                 </motion.div>
             </div>

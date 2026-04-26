@@ -14,7 +14,7 @@ const Hero = () => {
     <section id="hero" className="min-h-screen flex items-center justify-center relative pt-20 md:pt-24">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center">
         {/* Text Content */}
-        <div className="text-center lg:text-left z-10 bg-gradient-to-r from-gray-900 via-black to-gray-900 
+        <div className="text-center lg:text-left z-10 bg-gradient-to-r from-gray-900 via-black to-gray-900
                      backdrop-blur-sm rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-500 opacity-90 shadow-lg">
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
@@ -29,9 +29,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-base sm:text-xl md:text-2xl lg:text-3xl text-gray-100 mb-8 font-light drop-shadow-lg"
+            className="text-xl sm:text-2xl md:text-3xl text-gray-300 mb-3 drop-shadow-lg"
           >
-            Engineering for Efficiency & Optimizing Workflows!
+            Software that ships, scales and is maintainable.
           </motion.p>
         
           <motion.button
