@@ -9,6 +9,14 @@ updates:
       npm-dependencies:
         patterns: ["*"]
         update-types: ["minor", "patch"]
+    ignore:
+      # eslint-plugin-react does not yet support ESLint 10 (peer caps at ^9.7).
+      # eslint and @eslint/js are versioned in lockstep, so hold both at 9.
+      # Remove these once eslint-plugin-react ships an ESLint 10 compatible release.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

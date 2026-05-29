@@ -2,30 +2,9 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 /*
- * V1 Tech Digest — Google Sheets data source (n8n + RSS pipeline).
- * Replaced by static JSON approach in V2. Kept for reference.
- * See also: src/hooks/useGoogleSheets.js, src/utils/googleSheetsAPI.js, src/utils/apiCache.js
- *
- * const SHEET_CONFIG = {
- *     SHEET_ID: '<google-sheet-id>',
- *     API_KEY: import.meta.env?.VITE_GOOGLE_API_KEY || null,
- *     RANGE: 'Sheet1!A:Z'
- * };
- *
- * const fetchGoogleSheetContent = async () => {
- *     if (!SHEET_CONFIG.API_KEY) throw new Error('Google API key not configured.');
- *     const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_CONFIG.SHEET_ID}/values/${SHEET_CONFIG.RANGE}?key=${SHEET_CONFIG.API_KEY}`;
- *     const response = await fetch(url);
- *     if (!response.ok) throw new Error(`Sheets API error: ${response.status}`);
- *     const data = await response.json();
- *     if (!data.values || data.values.length < 2) throw new Error('No data in sheet.');
- *     const headers = data.values[0];
- *     const contentIndex = headers.findIndex(h =>
- *         h && (h.toLowerCase().includes('content') || h.toLowerCase().includes('summary') || h.toLowerCase().includes('digest'))
- *     );
- *     if (contentIndex === -1) throw new Error('Content column not found.');
- *     return data.values[1][contentIndex]?.trim() || '';
- * };
+ * V1 of this section fetched its digest live from Google Sheets. That data
+ * source was replaced by a build-time generated tech-news.json (fetched below).
+ * Legacy implementation + rationale: docs/legacy/weekly-tech-news-google-sheets.md
  */
 
 // Parse the AI-generated digest text into structured sections
@@ -73,8 +52,6 @@ const WeeklyTechNews = () => {
 
     useEffect(() => {
         let ignore = false;
-        setLoading(true);
-        setError(null);
         fetch(`${import.meta.env.BASE_URL}tech-news.json?v=${Date.now()}`)
             .then(r => {
                 if (!r.ok) throw new Error(`Failed to load news (${r.status})`);

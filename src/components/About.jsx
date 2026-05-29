@@ -70,9 +70,9 @@ function About() {
                                p-4 md:p-8 rounded-xl shadow-lg backdrop-blur-sm opacity-90"
                 >
                     <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
-                        My focus is software that does what it's supposed to do, then keeps doing it.
+                        My focus is software that does what it&apos;s supposed to do, then keeps doing it.
                         The stack shifts from project to project (backend services, data pipelines, AI agents, frontend apps),
-                        but the discipline doesn't. Across all of it, the engineering decisions matter more than
+                        but the discipline doesn&apos;t. Across all of it, the engineering decisions matter more than
                         any single framework. The standard is software that holds up under heavy load, stays
                         maintainable, and follows best practices.
                     </p>

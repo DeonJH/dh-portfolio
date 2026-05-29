@@ -3,9 +3,12 @@ import { Mail } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
-const FaIcon = (icon) => ({ size, className }) => (
-    <FontAwesomeIcon icon={icon} className={className} style={{ fontSize: size }} />
-);
+const FaIcon = (icon) => {
+    const FaIconComponent = ({ size, className }) => (
+        <FontAwesomeIcon icon={icon} className={className} style={{ fontSize: size }} />
+    );
+    return FaIconComponent;
+};
 
 const Socials = () => {
     const socialLinks = [

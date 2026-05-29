@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Heart, Code } from 'lucide-react';
+import { Code } from 'lucide-react';
 
 function Footer() {
   return (
