@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
  */
 
 // Parse the AI-generated digest text into structured sections
-function parseDigest(text) {
+export function parseDigest(text) {
     const paragraphs = text.split('\n\n').map(p => p.trim()).filter(Boolean);
     let title = '', intro = '', closing = '';
     const categories = [];

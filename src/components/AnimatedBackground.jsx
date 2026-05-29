@@ -39,7 +39,7 @@ const TECH_ICONS = [
 
 // Build the floating particles once. Randomness lives here (outside render)
 // so the component render stays pure.
-const buildParticles = () => {
+export const buildParticles = () => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const particleCount = isMobile ? 8 : 16;
 
