@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseDigest } from './WeeklyTechNews.jsx';
+import { parseDigest } from '../utils/parseDigest.js';
 
 /*
  * parseDigest turns the AI-generated, weekly-regenerated digest text into

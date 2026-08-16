@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { buildParticles } from './AnimatedBackground.jsx';
+import { buildParticles } from '../utils/particles.js';
 
 /*
  * buildParticles seeds the floating tech-icon background. Counts switch on the
