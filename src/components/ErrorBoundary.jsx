@@ -210,35 +210,6 @@ class ErrorBoundary extends React.Component {
 }
 
 /**
- * Higher-order component to wrap components with error boundary
- */
-export const withErrorBoundary = (Component, errorBoundaryProps = {}) => {
-    const WrappedComponent = (props) => (
-        <ErrorBoundary {...errorBoundaryProps}>
-            <Component {...props} />
-        </ErrorBoundary>
-    );
-
-    WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
-    return WrappedComponent;
-};
-
-/**
- * Hook to get error boundary context (for functional components)
- */
-export const useErrorHandler = () => {
-    const [error, setError] = React.useState(null);
-
-    React.useEffect(() => {
-        if (error) {
-            throw error;
-        }
-    }, [error]);
-
-    return setError;
-};
-
-/**
  * Simple error boundary for specific components
  */
 export const SimpleErrorBoundary = ({ children, fallback, onError }) => (
