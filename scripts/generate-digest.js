@@ -116,11 +116,12 @@ async function main() {
     '</article-titles>'
   ].join('\n');
 
-  console.log('Generating digest with OpenAI GPT-4.1-mini...');
+  console.log('Generating digest with OpenAI GPT-6 Luna...');
   const response = await post('api.openai.com', '/v1/chat/completions', {
-    model: 'gpt-4.1-mini',
+    model: 'gpt-6-luna',
     messages: [{ role: 'user', content: prompt }],
-    max_tokens: 1200,
+    reasoning_effort: 'none',
+    max_completion_tokens: 1200,
     temperature: 0.7
   }, {
     'Content-Type': 'application/json',
