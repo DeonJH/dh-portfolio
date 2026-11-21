@@ -15,7 +15,7 @@ const Socials = () => {
         {
             name: 'LinkedIn',
             icon: FaIcon(faLinkedin),
-            url: 'https://linkedin.com/in/deon-hill',
+            url: 'https://linkedin.com/in/deonhill',
             color: 'from-blue-600 to-blue-700',
             hoverColor: 'hover:from-blue-500 hover:to-blue-600',
             description: 'Connect with me professionally'

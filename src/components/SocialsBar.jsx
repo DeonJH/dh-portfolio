@@ -39,7 +39,7 @@ const SocialsBar = () => {
       name: "linkedin", 
       Icon: FaIcon(faLinkedin), 
       color: "text-blue-500", 
-      link: "https://linkedin.com/in/deon-hill", 
+      link: "https://linkedin.com/in/deonhill", 
       label: "LinkedIn" 
     },
     { 

@@ -20,7 +20,7 @@ const LinkedInProfileCard = () => {
           Full Stack Software Engineer | Java | Spring Framework | React | JavaScript | Computer Science
         </p>
         <a
-          href="https://linkedin.com/in/deon-hill"
+          href="https://linkedin.com/in/deonhill"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 group-hover:underline text-sm"> View Profile </a>
